@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>thefacebook | Mark's Profile</title>
+  <style>
+    /* Reset & Base Fonts (Iconic mid-2000s Web-Safe typography) */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #d8dfea;
+      font-family: "Lucida Grande", Tahoma, Verdana, Arial, sans-serif;
+      font-size: 11px;
+      color: #333333;
+      line-height: 1.35;
+      padding-bottom: 30px;
+    }
+
+    a {
+      color: #3b5998;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Overall Container */
+    #page-wrapper {
+      width: 100%;
+      max-width: 860px;
+      margin: 12px auto;
+      background-color: #ffffff;
+      border: 1px solid #3b5998;
+      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Classic Vintage Header */
+    #header {
+      background: #3b5998;
+      color: #ffffff;
+      padding: 8px 14px 6px 14px;
+      border-bottom: 1px solid #1d3663;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .brand-logo {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 26px;
+      font-weight: bold;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      text-shadow: 1px 1px 1px #1d3663;
+    }
+
+    .brand-tagline {
+      font-size: 11px;
+      color: #c3d0ea;
+      font-weight: normal;
+    }
+
+    .top-nav {
+      font-size: 11px;
+      padding-bottom: 2px;
+    }
+
+    .top-nav a {
+      color: #ffffff;
+      font-weight: bold;
+      padding: 0 5px;
+      border-right: 1px solid #708ec7;
+    }
+
+    .top-nav a:last-child {
+      border-right: none;
+      padding-right: 0;
+    }
+
+    .top-nav a:hover {
+      color: #eceff6;
+      text-decoration: underline;
+    }
+
+    /* Sub-header Banner / Status Bar */
+    #sub-bar {
+      background-color: #eceff6;
+      border-bottom: 1px solid #d8dfea;
+      padding: 5px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .status-announcement {
+      color: #3b5998;
+      font-weight: bold;
+    }
+
+    .search-box input[type="text"] {
+      font-size: 11px;
+      font-family: inherit;
+      padding: 2px 5px;
+      border: 1px solid #7f9db9;
+      width: 140px;
+    }
+
+    .search-box button {
+      font-size: 10px;
+      font-family: inherit;
+      background-color: #eceff6;
+      border: 1px solid #7f9db9;
+      padding: 1px 6px;
+      cursor: pointer;
+    }
+
+    /* Main 3-Column Layout */
+    #main-container {
+      display: flex;
+      width: 100%;
+      min-height: 700px;
+    }
+
+    /* Column 1: Left Navigation / Actions */
+    #col-left {
+      width: 175px;
+      flex-shrink: 0;
+      background-color: #f7f7f7;
+      border-right: 1px solid #d8dfea;
+      padding: 12px 10px;
+    }
+
+    /* Column 2: Center Main Profile Content */
+    #col-center {
+      flex: 1;
+      padding: 14px 16px;
+      border-right: 1px solid #d8dfea;
+      min-width: 0;
+    }
+
+    /* Column 3: Right Sidebar (Friends & Networks) */
+    #col-right {
+      width: 220px;
+      flex-shrink: 0;
+      background-color: #f7f7f7;
+      padding: 12px 10px;
+    }
+
+    /* Responsive adjustment for small screens */
+    @media (max-width: 768px) {
+      #main-container {
+        flex-direction: column;
+      }
+      #col-left, #col-right {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #d8dfea;
+      }
+      #col-center {
+        border-right: none;
+        border-bottom: 1px solid #d8dfea;
+      }
+    }
+
+    /* Classic Profile Picture & Action Box */
+    .profile-pic-container {
+      border: 1px solid #999999;
+      background-color: #ffffff;
+      padding: 3px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .profile-pic-container img {
+      width: 100%;
+      display: block;
+      height: auto;
+    }
+
+    .status-badge {
+      margin-top: 5px;
+      font-size: 10px;
+      color: #666;
+      font-style: italic;
+    }
+
+    /* Left Action Links */
+    .action-links {
+      list-style: none;
+      margin-bottom: 15px;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 6px;
+    }
+
+    .action-links li {
+      margin-bottom: 5px;
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .action-links li::before {
+      content: "»";
+      position: absolute;
+      left: 2px;
+      color: #3b5998;
+      font-weight: bold;
+    }
+
+    .left-section-box {
+      margin-bottom: 15px;
+    }
+
+    .left-header {
+      font-weight: bold;
+      color: #3b5998;
+      border-bottom: 1px solid #d8dfea;
+      padding-bottom: 3px;
+      margin-bottom: 6px;
+      font-size: 11px;
+      text-transform: capitalize;
+    }
+
+    /* Profile Header Info (Center Top) */
+    .profile-title {
+      border-bottom: 1px solid #3b5998;
+      padding-bottom: 4px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .profile-title h1 {
+      font-size: 17px;
+      color: #3b5998;
+      font-weight: bold;
+    }
+
+    .network-badge {
+      font-size: 11px;
+      color: #666;
+    }
+
+    .member-status {
+      font-size: 11px;
+      color: #333;
+      margin-bottom: 12px;
+      background: #f7f7f7;
+      padding: 6px 8px;
+      border-left: 3px solid #3b5998;
+    }
+
+    /* Retro Section Boxes */
+    .retro-box {
+      margin-bottom: 16px;
+      border: 1px solid #d8dfea;
+      background-color: #ffffff;
+    }
+
+    .retro-box-header {
+      background-color: #eceff6;
+      border-bottom: 1px solid #d8dfea;
+      color: #3b5998;
+      font-weight: bold;
+      padding: 4px 8px;
+      font-size: 11px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .retro-box-header span.edit-link {
+      font-weight: normal;
+      font-size: 10px;
+    }
+
+    .retro-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    .retro-table td {
+      padding: 5px 8px;
+      vertical-align: top;
+      border-bottom: 1px dotted #eeeeee;
+    }
+
+    .retro-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .label-col {
+      width: 28%;
+      color: #666666;
+      font-weight: bold;
+      background-color: #fafafa;
+      text-align: right;
+      padding-right: 12px !important;
+    }
+
+    .value-col {
+      color: #111111;
+    }
+
+    /* The Wall Section */
+    .wall-input-container {
+      background-color: #f7f7f7;
+      padding: 8px;
+      border-bottom: 1px solid #d8dfea;
+    }
+
+    .wall-input-container textarea {
+      width: 100%;
+      height: 48px;
+      font-family: inherit;
+      font-size: 11px;
+      border: 1px solid #7f9db9;
+      padding: 4px;
+      resize: vertical;
+    }
+
+    .wall-btn-row {
+      margin-top: 5px;
+      text-align: right;
+    }
+
+    .retro-btn {
+      background: #eceff6;
+      border: 1px solid #3b5998;
+      color: #3b5998;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 2px 10px;
+      cursor: pointer;
+    }
+
+    .retro-btn:hover {
+      background-color: #3b5998;
+      color: #ffffff;
+    }
+
+    .wall-feed {
+      padding: 8px;
+    }
+
+    .wall-post {
+      display: flex;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px dotted #cccccc;
+    }
+
+    .wall-post:last-child {
+      border-bottom: none;
+    }
+
+    .wall-thumb {
+      width: 48px;
+      height: 48px;
+      border: 1px solid #999;
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+
+    .wall-content {
+      flex: 1;
+    }
+
+    .wall-author {
+      font-weight: bold;
+      color: #3b5998;
+    }
+
+    .wall-time {
+      font-size: 10px;
+      color: #888888;
+      margin-left: 6px;
+    }
+
+    .wall-msg {
+      margin-top: 3px;
+      font-size: 11px;
+      color: #222222;
+    }
+
+    /* Right Sidebar (Friend Grid & Mutuals) */
+    .friends-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      padding: 8px 4px;
+      text-align: center;
+    }
+
+    .friend-cell {
+      text-align: center;
+    }
+
+    .friend-avatar {
+      width: 54px;
+      height: 54px;
+      border: 1px solid #a3b2cc;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 3px auto;
+    }
+
+    .friend-name {
+      font-size: 10px;
+      line-height: 1.1;
+      display: block;
+      word-break: break-word;
+    }
+
+    /* System Notification Toast */
+    #system-toast {
+      display: none;
+      background-color: #fff8cc;
+      border: 1px solid #e2c822;
+      padding: 6px 12px;
+      font-size: 11px;
+      margin-bottom: 10px;
+      color: #555;
+    }
+
+    /* Classic Footer */
+    #footer {
+      border-top: 1px solid #d8dfea;
+      margin-top: 10px;
+      padding: 10px 14px;
+      text-align: center;
+      font-size: 10px;
+      color: #777777;
+      background-color: #f7f7f7;
+    }
+
+    #footer a {
+      color: #3b5998;
+      margin: 0 4px;
+    }
+
+    .connection-status-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      background-color: #2ecc71;
+      border-radius: 50%;
+      margin-right: 3px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="page-wrapper">
+  <!-- Classic Header Banner -->
+  <header id="header">
+    <div class="brand-section">
+      <span class="brand-logo">[thefacebook]</span>
+      <span class="brand-tagline">an online directory that connects people through social networks at colleges.</span>
+    </div>
+    <nav class="top-nav">
+      <a href="javascript:void(0)" onclick="notify('Viewing current profile');">profile</a>
+      <a href="javascript:void(0)" onclick="notify('Search directory is available');">search</a>
+      <a href="javascript:void(0)" onclick="notify('Browsing Harvard network');">browse</a>
+      <a href="javascript:void(0)" onclick="notify('Invite your friends via .edu email');">invite</a>
+      <a href="javascript:void(0)" onclick="notify('Viewing active privacy preferences');">privacy</a>
+      <a href="javascript:void(0)" onclick="notify('Logged out of session (demo simulation)');">logout</a>
+    </nav>
+  </header>
+
+  <!-- Sub Header / Status Bar -->
+  <div id="sub-bar">
+    <div>
+      <span class="connection-status-dot"></span>
+      <span class="status-announcement">Harvard Network: Kirkland House</span>
+    </div>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search people...">
+      <button type="button" onclick="searchProfile()">Find</button>
+    </div>
+  </div>
+
+  <!-- Notification Banner -->
+  <div id="system-toast"></div>
+
+  <!-- 3-Column Profile Section -->
+  <main id="main-container">
+    
+    <!-- LEFT COLUMN: Picture & Actions -->
+    <aside id="col-left">
+      <div class="profile-pic-container">
+        <!-- Mock classic mid-2000s dorm avatar -->
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80" 
+             alt="Mark Profile Picture" 
+             onerror="this.src='https://placehold.co/160x190/3b5998/ffffff?text=User+Picture'">
+        <div class="status-badge">Online now</div>
+      </div>
+
+      <div class="left-section-box">
+        <ul class="action-links">
+          <li><a href="javascript:void(0)" onclick="focusWall()">Post to Mark's Wall</a></li>
+          <li><a href="javascript:void(0)" onclick="notify('Message composer opened.')">Send Mark a Message</a></li>
+          <li><a href="javascript:void(0)" onclick="pokeUser()">Poke Mark!</a></li>
+          <li><a href="javascript:void(0)" onclick="notify('Mark is already in your Friends list.')">View Mark's Friends</a></li>
+          <li><a href="javascript:void(0)" onclick="notify('Listing mutual connections: Eduardo, Chris, Dustin.')">View Mutual Friends (3)</a></li>
+        </ul>
+      </div>
+
+      <div class="left-section-box">
+        <div class="left-header">Network Status</div>
+        <p style="margin-bottom: 4px;"><strong>Harvard</strong></p>
+        <p style="color: #666;">Undergrad: Class of '06</p>
+        <p style="color: #666;">Member since: Feb 4, 2004</p>
+      </div>
+
+      <div class="left-section-box">
+        <div class="left-header">Contact Info</div>
+        <p><strong>Email:</strong><br><a href="mailto:mark@thefacebook.com">mark@harvard.edu</a></p>
+        <p style="margin-top: 4px;"><strong>Screenname:</strong><br>zuck (AIM)</p>
+        <p style="margin-top: 4px;"><strong>Mobile:</strong><br>617-555-0143</p>
+        <p style="margin-top: 4px;"><strong>Room:</strong><br>Kirkland H-33</p>
+      </div>
+    </aside>
+
+    <!-- CENTER COLUMN: Personal Info, Education & The Wall -->
+    <section id="col-center">
+      <div class="profile-title">
+        <h1>Mark Zuckerberg</h1>
+        <div class="network-badge">Harvard Undergrad Profile</div>
+      </div>
+
+      <div class="member-status">
+        <strong>Status:</strong> building features for thefacebook.com into the early morning... ☕
+      </div>
+
+      <!-- Information Box -->
+      <div class="retro-box">
+        <div class="retro-box-header">
+          <span>Information</span>
+          <span class="edit-link"><a href="javascript:void(0)" onclick="notify('Editing profile is disabled in demo mode.')">[ edit ]</a></span>
+        </div>
+        <table class="retro-table">
+          <tbody>
+            <tr>
+              <td class="label-col">Account Type:</td>
+              <td class="value-col">Student</td>
+            </tr>
+            <tr>
+              <td class="label-col">Sex:</td>
+              <td class="value-col">Male</td>
+            </tr>
+            <tr>
+              <td class="label-col">Relationship Status:</td>
+              <td class="value-col">In a Relationship with Priscilla Chan</td>
+            </tr>
+            <tr>
+              <td class="label-col">Looking For:</td>
+              <td class="value-col">Friendship, Coding Collaborators, Brainstorming</td>
+            </tr>
+            <tr>
+              <td class="label-col">Birthday:</td>
+              <td class="value-col">May 14, 1984</td>
+            </tr>
+            <tr>
+              <td class="label-col">Hometown:</td>
+              <td class="value-col">Dobbs Ferry, New York</td>
+            </tr>
+            <tr>
+              <td class="label-col">High School:</td>
+              <td class="value-col"><a href="javascript:void(0)">Phillips Exeter Academy '02</a></td>
+            </tr>
+            <tr>
+              <td class="label-col">Concentration:</td>
+              <td class="value-col">Computer Science, Psychology</td>
+            </tr>
+            <tr>
+              <td class="label-col">Favorite Music:</td>
+              <td class="value-col">Daft Punk, Green Day, Guster, Radiohead, Shakira</td>
+            </tr>
+            <tr>
+              <td class="label-col">Favorite Books:</td>
+              <td class="value-col">The Aeneid, Ender's Game, Cryptonomicon</td>
+            </tr>
+            <tr>
+              <td class="label-col">About Me:</td>
+              <td class="value-col">
+                I'm trying to make the world a more open place by helping people connect and share. 
+                PHP, MySQL, Apache, and late night pizza deliveries to Kirkland House.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Education Box -->
+      <div class="retro-box">
+        <div class="retro-box-header">
+          <span>Education and Work</span>
+        </div>
+        <table class="retro-table">
+          <tbody>
+            <tr>
+              <td class="label-col">College:</td>
+              <td class="value-col"><strong>Harvard University '06</strong><br>Kirkland House Resident</td>
+            </tr>
+            <tr>
+              <td class="label-col">Classes:</td>
+              <td class="value-col">
+                <a href="javascript:void(0)">CS 50</a> (Introduction to Computer Science), 
+                <a href="javascript:void(0)">CS 161</a> (Operating Systems), 
+                <a href="javascript:void(0)">PSY 1</a> (General Psychology)
+              </td>
+            </tr>
+            <tr>
+              <td class="label-col">Clubs / Groups:</td>
+              <td class="value-col">
+                <a href="javascript:void(0)">Kirkland House Ping-Pong</a>, 
+                <a href="javascript:void(0)">Alpha Epsilon Pi</a>, 
+                <a href="javascript:void(0)">Harvard Computer Society</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- The Wall Box -->
+      <div class="retro-box" id="wall-section">
+        <div class="retro-box-header">
+          <span>The Wall</span>
+          <span class="edit-link" id="wall-counter">Displaying 4 of 4 wall posts</span>
+        </div>
+        
+        <!-- Post Submission Box -->
+        <div class="wall-input-container">
+          <textarea id="newWallText" placeholder="Write something on Mark's Wall..."></textarea>
+          <div class="wall-btn-row">
+            <button class="retro-btn" type="button" onclick="submitWallPost()">Post to Wall</button>
+          </div>
+        </div>
+
+        <!-- Feed List -->
+        <div class="wall-feed" id="wallFeed">
+          
+          <div class="wall-post">
+            <img class="wall-thumb" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80" alt="Eduardo Saverin" onerror="this.src='https://placehold.co/48x48/3b5998/ffffff?text=E'">
+            <div class="wall-content">
+              <div>
+                <a href="javascript:void(0)" class="wall-author">Eduardo Saverin</a>
+                <span class="wall-time">Today at 2:14 am</span>
+              </div>
+              <div class="wall-msg">Server bills for the Columbia and Stanford rollout are approved. Let me know when the Apache cluster is ready.</div>
+            </div>
+          </div>
+
+          <div class="wall-post">
+            <img class="wall-thumb" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="Dustin Moskovitz" onerror="this.src='https://placehold.co/48x48/3b5998/ffffff?text=D'">
+            <div class="wall-content">
+              <div>
+                <a href="javascript:void(0)" class="wall-author">Dustin Moskovitz</a>
+                <span class="wall-time">Yesterday at 11:42 pm</span>
+              </div>
+              <div class="wall-msg">Fixed the session bug in the photo uploader. Can we get Red Bull before we debug the database cache?</div>
+            </div>
+          </div>
+
+          <div class="wall-post">
+            <img class="wall-thumb" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="Priscilla Chan" onerror="this.src='https://placehold.co/48x48/3b5998/ffffff?text=P'">
+            <div class="wall-content">
+              <div>
+                <a href="javascript:void(0)" class="wall-author">Priscilla Chan</a>
+                <span class="wall-time">Yesterday at 6:18 pm</span>
+              </div>
+              <div class="wall-msg">Don't forget to eat dinner tonight! Meet me outside the dining hall around 7. ❤️</div>
+            </div>
+          </div>
+
+          <div class="wall-post">
+            <img class="wall-thumb" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=100&auto=format&fit=crop&q=80" alt="Chris Hughes" onerror="this.src='https://placehold.co/48x48/3b5998/ffffff?text=C'">
+            <div class="wall-content">
+              <div>
+                <a href="javascript:void(0)" class="wall-author">Chris Hughes</a>
+                <span class="wall-time">Oct 14 at 4:02 pm</span>
+              </div>
+              <div class="wall-msg">The press release copy for Yale is drafted. Check your Harvard Webmail account when you get a chance!</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT COLUMN: Friends & Networks -->
+    <aside id="col-right">
+      <div class="retro-box">
+        <div class="retro-box-header">
+          <span>Friends (6)</span>
+          <span class="edit-link"><a href="javascript:void(0)" onclick="notify('Showing all Harvard contacts')">[ see all ]</a></span>
+        </div>
+        <div class="friends-grid">
+          
+          <div class="friend-cell">
+            <img class="friend-avatar" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80" alt="Eduardo" onerror="this.src='https://placehold.co/54x54/3b5998/ffffff?text=Eduardo'">
+            <a href="javascript:void(0)" class="friend-name">Eduardo Saverin</a>
+          </div>
+
+          <div class="friend-cell">
+            <img class="friend-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="Dustin" onerror="this.src='https://placehold.co/54x54/3b5998/ffffff?text=Dustin'">
+            <a href="javascript:void(0)" class="friend-name">Dustin Moskovitz</a>
+          </div>
+
+          <div class="friend-cell">
+            <img class="friend-avatar" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="Priscilla" onerror="this.src='https://placehold.co/54x54/3b5998/ffffff?text=Priscilla'">
+            <a href="javascript:void(0)" class="friend-name">Priscilla Chan</a>
+          </div>
+
+          <div class="friend-cell">
+            <img class="friend-avatar" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=100&auto=format&fit=crop&q=80" alt="Chris" onerror="this.src='https://placehold.co/54x54/3b5998/ffffff?text=Chris'">
+            <a href="javascript:void(0)" class="friend-name">Chris Hughes</a>
+          </div>
+
+          <div class="friend-cell">
+            <img class="friend-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80" alt="Sean" onerror="this.src='https://placehold.co/54x54/3b5998/ffffff?text=Sean'">
+            <a href="javascript:void(0)" class="friend-name">Sean Parker</a>
+          </div>
+
+          <div class="friend-cell">
+            <img class="friend-avatar" src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=100&auto=format&fit=crop&q=80" alt="Andrew" onerror="this.src='https://placehold.co/54x54/3b5998/ffffff?text=Andrew'">
+            <a href="javascript:void(0)" class="friend-name">Andrew McCollum</a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Quick Links / Groups Box -->
+      <div class="retro-box">
+        <div class="retro-box-header">
+          <span>Mutual Groups (3)</span>
+        </div>
+        <div style="padding: 8px;">
+          <p style="margin-bottom: 6px;">• <a href="javascript:void(0)">Kirkland House Dining Hall Rats</a></p>
+          <p style="margin-bottom: 6px;">• <a href="javascript:void(0)">Ivy League Web Developers</a></p>
+          <p style="margin-bottom: 6px;">• <a href="javascript:void(0)">PHP & Apache Enthusiasts</a></p>
+        </div>
+      </div>
+
+      <!-- System Ads / College notices of the era -->
+      <div class="retro-box" style="background-color: #fafafa; border: 1px dashed #b0bed9;">
+        <div class="retro-box-header" style="background-color: #e5ebf5;">
+          <span>Campus Announcement</span>
+        </div>
+        <div style="padding: 8px; color: #555;">
+          <strong>CS Hackathon 2005:</strong> Kirkland Master's Lounge this Friday at 8:00 PM. Free pizza & caffeinated sodas provided.
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Retro Footer -->
+  <footer id="footer">
+    <div>
+      <a href="javascript:void(0)" onclick="notify('About TheFacebook: A Mark Zuckerberg production.');">about</a> | 
+      <a href="javascript:void(0)" onclick="notify('FAQ: Must have a valid .edu email address to participate.');">faq</a> | 
+      <a href="javascript:void(0)" onclick="notify('Contact: info@thefacebook.com');">contact</a> | 
+      <a href="javascript:void(0)" onclick="notify('Terms: Standard Ivy League collegiate conduct rules apply.');">terms</a> | 
+      <a href="javascript:void(0)" onclick="notify('Privacy: Only members of your college network can see your full profile.');">privacy</a>
+    </div>
+    <div style="margin-top: 6px; color: #999;">
+      a Mark Zuckerberg production<br>
+      Thefacebook &copy; 2004-2006
+    </div>
+  </footer>
+</div>
+
+<script>
+  // Simple non-blocking vintage notification banner
+  function notify(msg) {
+    const toast = document.getElementById('system-toast');
+    toast.textContent = msg;
+    toast.style.display = 'block';
+    clearTimeout(window.toastTimer);
+    window.toastTimer = setTimeout(() => {
+      toast.style.display = 'none';
+    }, 4000);
+  }
+
+  // Classic poke interaction
+  function pokeUser() {
+    notify("You poked Mark! We have sent him an email notification.");
+  }
+
+  // Scroll to and focus the Wall text area
+  function focusWall() {
+    const wallInput = document.getElementById('newWallText');
+    wallInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    wallInput.focus();
+  }
+
+  // Post to Wall functionality
+  function submitWallPost() {
+    const input = document.getElementById('newWallText');
+    const text = input.value.trim();
+
+    if (!text) {
+      notify("Please type a message before posting to the Wall.");
+      return;
+    }
+
+    const feed = document.getElementById('wallFeed');
+    const newPost = document.createElement('div');
+    newPost.className = 'wall-post';
+    newPost.style.backgroundColor = '#ffffdd'; // highlight new post vintage style
+
+    newPost.innerHTML = `
+      <img class="wall-thumb" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80" alt="You" onerror="this.src='https://placehold.co/48x48/3b5998/ffffff?text=You'">
+      <div class="wall-content">
+        <div>
+          <a href="javascript:void(0)" class="wall-author">You (Guest User)</a>
+          <span class="wall-time">Just now</span>
+        </div>
+        <div class="wall-msg">${escapeHtml(text)}</div>
+      </div>
+    `;
+
+    // Insert at top of feed
+    feed.insertBefore(newPost, feed.firstChild);
+    input.value = '';
+
+    // Remove background highlight after a couple seconds
+    setTimeout(() => {
+      newPost.style.transition = 'background-color 1s ease';
+      newPost.style.backgroundColor = 'transparent';
+    }, 1500);
+
+    notify("Your message has been posted to Mark's Wall.");
+  }
+
+  // Basic HTML escaper for wall input safety
+  function escapeHtml(string) {
+    const div = document.createElement('div');
+    div.innerText = string;
+    return div.innerHTML;
+  }
+
+  // Search profile simulation
+  function searchProfile() {
+    const q = document.getElementById('searchInput').value.trim();
+    if (q) {
+      notify(`Searching Harvard directory for "${q}"...`);
+    } else {
+      notify("Please enter a name or email to search.");
+    }
+  }
+</script>
+
+</body>
+</html>
