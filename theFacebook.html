@@ -18,7 +18,7 @@
       font-size: 11px;
       color: #333333;
       line-height: 1.35;
-      padding-bottom: 30px;
+      padding-bottom: 25px;
     }
 
     a {
@@ -45,7 +45,7 @@
     #header {
       background: #3b5998;
       color: #ffffff;
-      padding: 8px 14px 6px 14px;
+      padding: 8px 12px 6px 12px;
       border-bottom: 1px solid #1d3663;
       display: flex;
       justify-content: space-between;
@@ -62,7 +62,7 @@
 
     .brand-logo {
       font-family: "Georgia", "Times New Roman", serif;
-      font-size: 26px;
+      font-size: 24px;
       font-weight: bold;
       letter-spacing: -0.5px;
       color: #ffffff;
@@ -70,7 +70,7 @@
     }
 
     .brand-tagline {
-      font-size: 11px;
+      font-size: 10px;
       color: #c3d0ea;
       font-weight: normal;
     }
@@ -78,6 +78,8 @@
     .top-nav {
       font-size: 11px;
       padding-bottom: 2px;
+      display: flex;
+      align-items: center;
     }
 
     .top-nav a {
@@ -85,6 +87,7 @@
       font-weight: bold;
       padding: 0 5px;
       border-right: 1px solid #708ec7;
+      white-space: nowrap;
     }
 
     .top-nav a:last-child {
@@ -106,6 +109,7 @@
       justify-content: space-between;
       align-items: center;
       font-size: 11px;
+      gap: 8px;
     }
 
     .status-announcement {
@@ -113,20 +117,26 @@
       font-weight: bold;
     }
 
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
     .search-box input[type="text"] {
       font-size: 11px;
       font-family: inherit;
-      padding: 2px 5px;
+      padding: 3px 5px;
       border: 1px solid #7f9db9;
       width: 140px;
     }
 
     .search-box button {
-      font-size: 10px;
+      font-size: 11px;
       font-family: inherit;
       background-color: #eceff6;
       border: 1px solid #7f9db9;
-      padding: 1px 6px;
+      padding: 2px 7px;
       cursor: pointer;
     }
 
@@ -134,7 +144,7 @@
     #main-container {
       display: flex;
       width: 100%;
-      min-height: 700px;
+      min-height: 600px;
     }
 
     /* Column 1: Left Navigation / Actions */
@@ -162,22 +172,6 @@
       padding: 12px 10px;
     }
 
-    /* Responsive adjustment for small screens */
-    @media (max-width: 768px) {
-      #main-container {
-        flex-direction: column;
-      }
-      #col-left, #col-right {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid #d8dfea;
-      }
-      #col-center {
-        border-right: none;
-        border-bottom: 1px solid #d8dfea;
-      }
-    }
-
     /* Classic Profile Picture & Action Box */
     .profile-pic-container {
       border: 1px solid #999999;
@@ -189,8 +183,10 @@
 
     .profile-pic-container img {
       width: 100%;
+      max-width: 160px;
       display: block;
       height: auto;
+      margin: 0 auto;
     }
 
     .status-badge {
@@ -244,6 +240,8 @@
       display: flex;
       justify-content: space-between;
       align-items: baseline;
+      flex-wrap: wrap;
+      gap: 4px;
     }
 
     .profile-title h1 {
@@ -307,6 +305,7 @@
 
     .label-col {
       width: 28%;
+      min-width: 85px;
       color: #666666;
       font-weight: bold;
       background-color: #fafafa;
@@ -316,6 +315,7 @@
 
     .value-col {
       color: #111111;
+      word-break: break-word;
     }
 
     /* The Wall Section */
@@ -331,12 +331,13 @@
       font-family: inherit;
       font-size: 11px;
       border: 1px solid #7f9db9;
-      padding: 4px;
+      padding: 5px;
       resize: vertical;
+      display: block;
     }
 
     .wall-btn-row {
-      margin-top: 5px;
+      margin-top: 6px;
       text-align: right;
     }
 
@@ -346,7 +347,7 @@
       color: #3b5998;
       font-size: 11px;
       font-weight: bold;
-      padding: 2px 10px;
+      padding: 3px 10px;
       cursor: pointer;
     }
 
@@ -371,8 +372,8 @@
     }
 
     .wall-thumb {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border: 1px solid #999;
       flex-shrink: 0;
       object-fit: cover;
@@ -380,6 +381,7 @@
 
     .wall-content {
       flex: 1;
+      min-width: 0;
     }
 
     .wall-author {
@@ -390,13 +392,14 @@
     .wall-time {
       font-size: 10px;
       color: #888888;
-      margin-left: 6px;
+      margin-left: 4px;
     }
 
     .wall-msg {
       margin-top: 3px;
       font-size: 11px;
       color: #222222;
+      word-break: break-word;
     }
 
     /* Right Sidebar (Friend Grid & Mutuals) */
@@ -413,8 +416,8 @@
     }
 
     .friend-avatar {
-      width: 54px;
-      height: 54px;
+      width: 52px;
+      height: 52px;
       border: 1px solid #a3b2cc;
       object-fit: cover;
       display: block;
@@ -432,11 +435,12 @@
     #system-toast {
       display: none;
       background-color: #fff8cc;
-      border: 1px solid #e2c822;
-      padding: 6px 12px;
+      border-bottom: 1px solid #e2c822;
+      padding: 7px 12px;
       font-size: 11px;
-      margin-bottom: 10px;
+      font-weight: bold;
       color: #555;
+      text-align: center;
     }
 
     /* Classic Footer */
@@ -463,6 +467,171 @@
       border-radius: 50%;
       margin-right: 3px;
     }
+
+    /* Mobile specific banner container for reordered title */
+    .mobile-top-profile {
+      display: none;
+    }
+
+    /* ==========================================================================
+       MOBILE RESPONSIVE VIEW (Portrait vertical screens: max-width: 768px)
+       ========================================================================== */
+    @media screen and (max-width: 768px) {
+      body {
+        padding-bottom: 10px;
+      }
+
+      #page-wrapper {
+        margin: 0;
+        border-left: none;
+        border-right: none;
+        box-shadow: none;
+      }
+
+      /* Stack header and allow horizontal scroll for navigation links */
+      #header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 6px 10px;
+        gap: 6px;
+      }
+
+      .brand-section {
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .brand-logo {
+        font-size: 20px;
+      }
+
+      .brand-tagline {
+        font-size: 9px;
+      }
+
+      .top-nav {
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px;
+      }
+
+      .top-nav a {
+        padding: 4px 8px;
+        font-size: 11px;
+      }
+
+      /* Subheader wraps cleanly */
+      #sub-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        padding: 8px 10px;
+      }
+
+      .search-box {
+        width: 100%;
+      }
+
+      .search-box input[type="text"] {
+        flex: 1;
+        width: auto;
+      }
+
+      /* Stack 3-column layout into vertical flow with custom order */
+      #main-container {
+        flex-direction: column;
+      }
+
+      /* Show mobile header banner above everything else */
+      .mobile-top-profile {
+        display: block;
+        order: 1;
+        padding: 10px 10px 4px 10px;
+        background-color: #ffffff;
+      }
+
+      /* 2. Photo, Actions, and Contact information */
+      #col-left {
+        width: 100%;
+        order: 2;
+        border-right: none;
+        border-bottom: 1px solid #d8dfea;
+        padding: 10px;
+      }
+
+      /* 3. Main Information Tables & The Wall */
+      #col-center {
+        width: 100%;
+        order: 3;
+        border-right: none;
+        border-bottom: 1px solid #d8dfea;
+        padding: 10px;
+      }
+
+      /* Hide the redundant desktop title from center column */
+      #col-center .profile-title {
+        display: none;
+      }
+
+      /* 4. Friends grid, Groups, and Announcements at bottom */
+      #col-right {
+        width: 100%;
+        order: 4;
+        border-right: none;
+        padding: 10px;
+      }
+
+      /* Larger touch-friendly action buttons */
+      .action-links li {
+        margin-bottom: 8px;
+        padding-left: 16px;
+      }
+
+      .action-links a {
+        font-size: 12px;
+        display: inline-block;
+      }
+
+      /* Responsive tables and full-width forms */
+      .label-col {
+        width: 32%;
+        font-size: 10.5px;
+        padding-right: 6px !important;
+      }
+
+      .value-col {
+        font-size: 11px;
+      }
+
+      .wall-btn-row .retro-btn {
+        width: 100%;
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+
+      /* 4-column responsive grid on mobile screens for friends */
+      .friends-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+
+      .friend-avatar {
+        width: 58px;
+        height: 58px;
+      }
+
+      .friend-name {
+        font-size: 9.5px;
+      }
+
+      /* Footer links wrapping */
+      #footer {
+        padding: 12px 8px;
+        line-height: 1.6;
+      }
+    }
   </style>
 </head>
 <body>
@@ -475,12 +644,12 @@
       <span class="brand-tagline">an online directory that connects people through social networks at colleges.</span>
     </div>
     <nav class="top-nav">
-      <a href="javascript:void(0)" onclick="notify('Viewing current profile');">profile</a>
-      <a href="javascript:void(0)" onclick="notify('Search directory is available');">search</a>
-      <a href="javascript:void(0)" onclick="notify('Browsing Harvard network');">browse</a>
-      <a href="javascript:void(0)" onclick="notify('Invite your friends via .edu email');">invite</a>
-      <a href="javascript:void(0)" onclick="notify('Viewing active privacy preferences');">privacy</a>
-      <a href="javascript:void(0)" onclick="notify('Logged out of session (demo simulation)');">logout</a>
+      <a href="javascript:void(0)" onclick="notify('Viewing Mark Zuckerberg\'s profile');">profile</a>
+      <a href="javascript:void(0)" onclick="notify('Directory search is ready');">search</a>
+      <a href="javascript:void(0)" onclick="notify('Browsing Harvard College network');">browse</a>
+      <a href="javascript:void(0)" onclick="notify('Invitations sent to valid .edu accounts');">invite</a>
+      <a href="javascript:void(0)" onclick="notify('Viewing privacy settings');">privacy</a>
+      <a href="javascript:void(0)" onclick="notify('Session logged out (Demo)');">logout</a>
     </nav>
   </header>
 
@@ -501,12 +670,23 @@
 
   <!-- 3-Column Profile Section -->
   <main id="main-container">
-    
-    <!-- LEFT COLUMN: Picture & Actions -->
+
+    <!-- Mobile-Only Top Title Banner (Displays first on portrait mobile screens) -->
+    <div class="mobile-top-profile">
+      <div class="profile-title" style="margin-bottom: 6px;">
+        <h1>Mark Zuckerberg</h1>
+        <div class="network-badge">Harvard Undergrad Profile</div>
+      </div>
+      <div class="member-status" style="margin-bottom: 6px;">
+        <strong>Status:</strong> building features for thefacebook.com into the early morning... ☕
+      </div>
+    </div>
+
+    <!-- LEFT COLUMN: Picture & Actions (Order 2 on mobile) -->
     <aside id="col-left">
       <div class="profile-pic-container">
-        <!-- Mock classic mid-2000s dorm avatar -->
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80" 
+        <!-- Vintage style profile photo -->
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=320&h=380&auto=format&fit=crop&q=80" 
              alt="Mark Profile Picture" 
              onerror="this.src='https://placehold.co/160x190/3b5998/ffffff?text=User+Picture'">
         <div class="status-badge">Online now</div>
@@ -515,10 +695,10 @@
       <div class="left-section-box">
         <ul class="action-links">
           <li><a href="javascript:void(0)" onclick="focusWall()">Post to Mark's Wall</a></li>
-          <li><a href="javascript:void(0)" onclick="notify('Message composer opened.')">Send Mark a Message</a></li>
-          <li><a href="javascript:void(0)" onclick="pokeUser()">Poke Mark!</a></li>
-          <li><a href="javascript:void(0)" onclick="notify('Mark is already in your Friends list.')">View Mark's Friends</a></li>
-          <li><a href="javascript:void(0)" onclick="notify('Listing mutual connections: Eduardo, Chris, Dustin.')">View Mutual Friends (3)</a></li>
+          <li><a href="javascript:void(0)" onclick="notify('Message window opened for Mark.')">Send Mark a Message</a></li>
+          <li><a href="javascript:void(0)" onclick="pokeUser()">Poke Mark! (<span id="pokeCounter">42</span>)</a></li>
+          <li><a href="javascript:void(0)" onclick="notify('Mark is already in your Harvard friend list.')">View Mark's Friends</a></li>
+          <li><a href="javascript:void(0)" onclick="notify('Mutual connections: Eduardo, Chris, Dustin.')">View Mutual Friends (3)</a></li>
         </ul>
       </div>
 
@@ -531,15 +711,16 @@
 
       <div class="left-section-box">
         <div class="left-header">Contact Info</div>
-        <p><strong>Email:</strong><br><a href="mailto:mark@thefacebook.com">mark@harvard.edu</a></p>
+        <p><strong>Email:</strong><br><a href="mailto:mark@harvard.edu">mark@harvard.edu</a></p>
         <p style="margin-top: 4px;"><strong>Screenname:</strong><br>zuck (AIM)</p>
         <p style="margin-top: 4px;"><strong>Mobile:</strong><br>617-555-0143</p>
         <p style="margin-top: 4px;"><strong>Room:</strong><br>Kirkland H-33</p>
       </div>
     </aside>
 
-    <!-- CENTER COLUMN: Personal Info, Education & The Wall -->
+    <!-- CENTER COLUMN: Personal Info, Education & The Wall (Order 3 on mobile) -->
     <section id="col-center">
+      <!-- Desktop header (hidden in mobile viewport) -->
       <div class="profile-title">
         <h1>Mark Zuckerberg</h1>
         <div class="network-badge">Harvard Undergrad Profile</div>
@@ -553,7 +734,7 @@
       <div class="retro-box">
         <div class="retro-box-header">
           <span>Information</span>
-          <span class="edit-link"><a href="javascript:void(0)" onclick="notify('Editing profile is disabled in demo mode.')">[ edit ]</a></span>
+          <span class="edit-link"><a href="javascript:void(0)" onclick="notify('Profile editing restricted in guest view.')">[ edit ]</a></span>
         </div>
         <table class="retro-table">
           <tbody>
@@ -566,7 +747,7 @@
               <td class="value-col">Male</td>
             </tr>
             <tr>
-              <td class="label-col">Relationship Status:</td>
+              <td class="label-col">Relationship:</td>
               <td class="value-col">In a Relationship with Priscilla Chan</td>
             </tr>
             <tr>
@@ -622,7 +803,7 @@
             <tr>
               <td class="label-col">Classes:</td>
               <td class="value-col">
-                <a href="javascript:void(0)">CS 50</a> (Introduction to Computer Science), 
+                <a href="javascript:void(0)">CS 50</a> (Intro to Computer Science), 
                 <a href="javascript:void(0)">CS 161</a> (Operating Systems), 
                 <a href="javascript:void(0)">PSY 1</a> (General Psychology)
               </td>
@@ -643,7 +824,7 @@
       <div class="retro-box" id="wall-section">
         <div class="retro-box-header">
           <span>The Wall</span>
-          <span class="edit-link" id="wall-counter">Displaying 4 of 4 wall posts</span>
+          <span class="edit-link" id="wall-counter">Displaying 4 wall posts</span>
         </div>
         
         <!-- Post Submission Box -->
@@ -658,7 +839,7 @@
         <div class="wall-feed" id="wallFeed">
           
           <div class="wall-post">
-            <img class="wall-thumb" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80" alt="Eduardo Saverin" onerror="this.src='https://placehold.co/48x48/3b5998/ffffff?text=E'">
+            <img class="wall-thumb" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80" alt="Eduardo Saverin" onerror="this.src='https://placehold.co/44x44/3b5998/ffffff?text=E'">
             <div class="wall-content">
               <div>
                 <a href="javascript:void(0)" class="wall-author">Eduardo Saverin</a>
@@ -669,7 +850,7 @@
           </div>
 
           <div class="wall-post">
-            <img class="wall-thumb" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="Dustin Moskovitz" onerror="this.src='https://placehold.co/48x48/3b5998/ffffff?text=D'">
+            <img class="wall-thumb" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="Dustin Moskovitz" onerror="this.src='https://placehold.co/44x44/3b5998/ffffff?text=D'">
             <div class="wall-content">
               <div>
                 <a href="javascript:void(0)" class="wall-author">Dustin Moskovitz</a>
@@ -680,7 +861,7 @@
           </div>
 
           <div class="wall-post">
-            <img class="wall-thumb" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="Priscilla Chan" onerror="this.src='https://placehold.co/48x48/3b5998/ffffff?text=P'">
+            <img class="wall-thumb" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="Priscilla Chan" onerror="this.src='https://placehold.co/44x44/3b5998/ffffff?text=P'">
             <div class="wall-content">
               <div>
                 <a href="javascript:void(0)" class="wall-author">Priscilla Chan</a>
@@ -691,7 +872,7 @@
           </div>
 
           <div class="wall-post">
-            <img class="wall-thumb" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=100&auto=format&fit=crop&q=80" alt="Chris Hughes" onerror="this.src='https://placehold.co/48x48/3b5998/ffffff?text=C'">
+            <img class="wall-thumb" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=100&auto=format&fit=crop&q=80" alt="Chris Hughes" onerror="this.src='https://placehold.co/44x44/3b5998/ffffff?text=C'">
             <div class="wall-content">
               <div>
                 <a href="javascript:void(0)" class="wall-author">Chris Hughes</a>
@@ -705,7 +886,7 @@
       </div>
     </section>
 
-    <!-- RIGHT COLUMN: Friends & Networks -->
+    <!-- RIGHT COLUMN: Friends & Networks (Order 4 on mobile) -->
     <aside id="col-right">
       <div class="retro-box">
         <div class="retro-box-header">
@@ -715,32 +896,32 @@
         <div class="friends-grid">
           
           <div class="friend-cell">
-            <img class="friend-avatar" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80" alt="Eduardo" onerror="this.src='https://placehold.co/54x54/3b5998/ffffff?text=Eduardo'">
+            <img class="friend-avatar" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80" alt="Eduardo" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Eduardo'">
             <a href="javascript:void(0)" class="friend-name">Eduardo Saverin</a>
           </div>
 
           <div class="friend-cell">
-            <img class="friend-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="Dustin" onerror="this.src='https://placehold.co/54x54/3b5998/ffffff?text=Dustin'">
+            <img class="friend-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="Dustin" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Dustin'">
             <a href="javascript:void(0)" class="friend-name">Dustin Moskovitz</a>
           </div>
 
           <div class="friend-cell">
-            <img class="friend-avatar" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="Priscilla" onerror="this.src='https://placehold.co/54x54/3b5998/ffffff?text=Priscilla'">
+            <img class="friend-avatar" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="Priscilla" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Priscilla'">
             <a href="javascript:void(0)" class="friend-name">Priscilla Chan</a>
           </div>
 
           <div class="friend-cell">
-            <img class="friend-avatar" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=100&auto=format&fit=crop&q=80" alt="Chris" onerror="this.src='https://placehold.co/54x54/3b5998/ffffff?text=Chris'">
+            <img class="friend-avatar" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=100&auto=format&fit=crop&q=80" alt="Chris" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Chris'">
             <a href="javascript:void(0)" class="friend-name">Chris Hughes</a>
           </div>
 
           <div class="friend-cell">
-            <img class="friend-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80" alt="Sean" onerror="this.src='https://placehold.co/54x54/3b5998/ffffff?text=Sean'">
+            <img class="friend-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80" alt="Sean" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Sean'">
             <a href="javascript:void(0)" class="friend-name">Sean Parker</a>
           </div>
 
           <div class="friend-cell">
-            <img class="friend-avatar" src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=100&auto=format&fit=crop&q=80" alt="Andrew" onerror="this.src='https://placehold.co/54x54/3b5998/ffffff?text=Andrew'">
+            <img class="friend-avatar" src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=100&auto=format&fit=crop&q=80" alt="Andrew" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Andrew'">
             <a href="javascript:void(0)" class="friend-name">Andrew McCollum</a>
           </div>
 
@@ -765,7 +946,7 @@
           <span>Campus Announcement</span>
         </div>
         <div style="padding: 8px; color: #555;">
-          <strong>CS Hackathon 2005:</strong> Kirkland Master's Lounge this Friday at 8:00 PM. Free pizza & caffeinated sodas provided.
+          <strong>CS Hackathon 2005:</strong> Kirkland Master's Lounge this Friday at 8:00 PM. Free pizza &amp; caffeinated sodas provided.
         </div>
       </div>
     </aside>
@@ -789,7 +970,10 @@
 </div>
 
 <script>
-  // Simple non-blocking vintage notification banner
+  let pokeCount = 42;
+  let totalPosts = 4;
+
+  // Vintage non-blocking notification banner
   function notify(msg) {
     const toast = document.getElementById('system-toast');
     toast.textContent = msg;
@@ -797,41 +981,43 @@
     clearTimeout(window.toastTimer);
     window.toastTimer = setTimeout(() => {
       toast.style.display = 'none';
-    }, 4000);
+    }, 3500);
   }
 
-  // Classic poke interaction
+  // Classic poke interaction with counter update
   function pokeUser() {
-    notify("You poked Mark! We have sent him an email notification.");
+    pokeCount++;
+    document.getElementById('pokeCounter').textContent = pokeCount;
+    notify(`You poked Mark! Total pokes: ${pokeCount}. A notification was sent to his inbox.`);
   }
 
-  // Scroll to and focus the Wall text area
+  // Scroll to and focus the Wall text area smoothly
   function focusWall() {
     const wallInput = document.getElementById('newWallText');
     wallInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
     wallInput.focus();
   }
 
-  // Post to Wall functionality
+  // Post to Wall functionality with animated vintage highlight
   function submitWallPost() {
     const input = document.getElementById('newWallText');
     const text = input.value.trim();
 
     if (!text) {
-      notify("Please type a message before posting to the Wall.");
+      notify("Please enter a message before submitting to the Wall.");
       return;
     }
 
     const feed = document.getElementById('wallFeed');
     const newPost = document.createElement('div');
     newPost.className = 'wall-post';
-    newPost.style.backgroundColor = '#ffffdd'; // highlight new post vintage style
+    newPost.style.backgroundColor = '#ffffcc';
 
     newPost.innerHTML = `
-      <img class="wall-thumb" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80" alt="You" onerror="this.src='https://placehold.co/48x48/3b5998/ffffff?text=You'">
+      <img class="wall-thumb" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80" alt="You" onerror="this.src='https://placehold.co/44x44/3b5998/ffffff?text=You'">
       <div class="wall-content">
         <div>
-          <a href="javascript:void(0)" class="wall-author">You (Guest User)</a>
+          <a href="javascript:void(0)" class="wall-author">You (Harvard Guest)</a>
           <span class="wall-time">Just now</span>
         </div>
         <div class="wall-msg">${escapeHtml(text)}</div>
@@ -842,29 +1028,32 @@
     feed.insertBefore(newPost, feed.firstChild);
     input.value = '';
 
-    // Remove background highlight after a couple seconds
+    totalPosts++;
+    document.getElementById('wall-counter').textContent = `Displaying ${totalPosts} wall posts`;
+
+    // Fade out highlight
     setTimeout(() => {
-      newPost.style.transition = 'background-color 1s ease';
+      newPost.style.transition = 'background-color 1.2s ease';
       newPost.style.backgroundColor = 'transparent';
     }, 1500);
 
-    notify("Your message has been posted to Mark's Wall.");
+    notify("Your note has been posted to Mark's Wall!");
   }
 
-  // Basic HTML escaper for wall input safety
-  function escapeHtml(string) {
+  // HTML escaper for safety
+  function escapeHtml(str) {
     const div = document.createElement('div');
-    div.innerText = string;
+    div.innerText = str;
     return div.innerHTML;
   }
 
-  // Search profile simulation
+  // Search input simulation
   function searchProfile() {
     const q = document.getElementById('searchInput').value.trim();
     if (q) {
       notify(`Searching Harvard directory for "${q}"...`);
     } else {
-      notify("Please enter a name or email to search.");
+      notify("Please type a name to search the network.");
     }
   }
 </script>
