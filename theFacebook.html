@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>thefacebook | Mark's Profile</title>
+  <title>[thefacebook] :: Harvard College Directory</title>
   <style>
     /* Reset & Base Fonts (Iconic mid-2000s Web-Safe typography) */
     * {
@@ -39,6 +39,7 @@
       background-color: #ffffff;
       border: 1px solid #3b5998;
       box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+      min-height: 640px;
     }
 
     /* Classic Vintage Header */
@@ -67,6 +68,7 @@
       letter-spacing: -0.5px;
       color: #ffffff;
       text-shadow: 1px 1px 1px #1d3663;
+      cursor: pointer;
     }
 
     .brand-tagline {
@@ -85,7 +87,7 @@
     .top-nav a {
       color: #ffffff;
       font-weight: bold;
-      padding: 0 5px;
+      padding: 0 6px;
       border-right: 1px solid #708ec7;
       white-space: nowrap;
     }
@@ -97,6 +99,11 @@
 
     .top-nav a:hover {
       color: #eceff6;
+      text-decoration: underline;
+    }
+
+    .top-nav a.active-nav {
+      color: #ffffcc;
       text-decoration: underline;
     }
 
@@ -140,14 +147,143 @@
       cursor: pointer;
     }
 
-    /* Main 3-Column Layout */
+    /* Notification Banner */
+    #system-toast {
+      display: none;
+      background-color: #fff8cc;
+      border-bottom: 1px solid #e2c822;
+      padding: 7px 12px;
+      font-size: 11px;
+      font-weight: bold;
+      color: #555;
+      text-align: center;
+    }
+
+    /* Tab Page Switcher Base */
+    .tab-page {
+      display: none;
+    }
+
+    .tab-page.active-page {
+      display: block;
+    }
+
+    /* ==========================================================================
+       SUBPAGE SHARED LAYOUT & RETRO STYLES
+       ========================================================================== */
+    .subpage-container {
+      padding: 16px;
+    }
+
+    .subpage-header-row {
+      border-bottom: 1px solid #3b5998;
+      padding-bottom: 5px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .subpage-title {
+      font-size: 17px;
+      color: #3b5998;
+      font-weight: bold;
+    }
+
+    .subpage-subtitle {
+      font-size: 11px;
+      color: #666;
+    }
+
+    /* Retro Box */
+    .retro-box {
+      margin-bottom: 16px;
+      border: 1px solid #d8dfea;
+      background-color: #ffffff;
+    }
+
+    .retro-box-header {
+      background-color: #eceff6;
+      border-bottom: 1px solid #d8dfea;
+      color: #3b5998;
+      font-weight: bold;
+      padding: 5px 8px;
+      font-size: 11px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .retro-box-body {
+      padding: 10px;
+    }
+
+    /* Retro Tables */
+    .retro-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    .retro-table td, .retro-table th {
+      padding: 5px 8px;
+      vertical-align: top;
+      border-bottom: 1px dotted #eeeeee;
+    }
+
+    .retro-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .label-col {
+      width: 28%;
+      min-width: 95px;
+      color: #666666;
+      font-weight: bold;
+      background-color: #fafafa;
+      text-align: right;
+      padding-right: 12px !important;
+    }
+
+    .value-col {
+      color: #111111;
+      word-break: break-word;
+    }
+
+    /* Buttons & Form controls */
+    .retro-btn {
+      background: #eceff6;
+      border: 1px solid #3b5998;
+      color: #3b5998;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 3px 12px;
+      cursor: pointer;
+    }
+
+    .retro-btn:hover {
+      background-color: #3b5998;
+      color: #ffffff;
+    }
+
+    .retro-input, .retro-select {
+      font-family: inherit;
+      font-size: 11px;
+      border: 1px solid #7f9db9;
+      padding: 3px 6px;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    /* ==========================================================================
+       PAGE 1: PROFILE TAB (Desktop 3-column layout)
+       ========================================================================== */
     #main-container {
       display: flex;
       width: 100%;
       min-height: 600px;
     }
 
-    /* Column 1: Left Navigation / Actions */
     #col-left {
       width: 175px;
       flex-shrink: 0;
@@ -156,7 +292,6 @@
       padding: 12px 10px;
     }
 
-    /* Column 2: Center Main Profile Content */
     #col-center {
       flex: 1;
       padding: 14px 16px;
@@ -164,7 +299,6 @@
       min-width: 0;
     }
 
-    /* Column 3: Right Sidebar (Friends & Networks) */
     #col-right {
       width: 220px;
       flex-shrink: 0;
@@ -172,7 +306,6 @@
       padding: 12px 10px;
     }
 
-    /* Classic Profile Picture & Action Box */
     .profile-pic-container {
       border: 1px solid #999999;
       background-color: #ffffff;
@@ -196,7 +329,6 @@
       font-style: italic;
     }
 
-    /* Left Action Links */
     .action-links {
       list-style: none;
       margin-bottom: 15px;
@@ -232,7 +364,6 @@
       text-transform: capitalize;
     }
 
-    /* Profile Header Info (Center Top) */
     .profile-title {
       border-bottom: 1px solid #3b5998;
       padding-bottom: 4px;
@@ -264,61 +395,6 @@
       border-left: 3px solid #3b5998;
     }
 
-    /* Retro Section Boxes */
-    .retro-box {
-      margin-bottom: 16px;
-      border: 1px solid #d8dfea;
-      background-color: #ffffff;
-    }
-
-    .retro-box-header {
-      background-color: #eceff6;
-      border-bottom: 1px solid #d8dfea;
-      color: #3b5998;
-      font-weight: bold;
-      padding: 4px 8px;
-      font-size: 11px;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .retro-box-header span.edit-link {
-      font-weight: normal;
-      font-size: 10px;
-    }
-
-    .retro-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 11px;
-    }
-
-    .retro-table td {
-      padding: 5px 8px;
-      vertical-align: top;
-      border-bottom: 1px dotted #eeeeee;
-    }
-
-    .retro-table tr:last-child td {
-      border-bottom: none;
-    }
-
-    .label-col {
-      width: 28%;
-      min-width: 85px;
-      color: #666666;
-      font-weight: bold;
-      background-color: #fafafa;
-      text-align: right;
-      padding-right: 12px !important;
-    }
-
-    .value-col {
-      color: #111111;
-      word-break: break-word;
-    }
-
-    /* The Wall Section */
     .wall-input-container {
       background-color: #f7f7f7;
       padding: 8px;
@@ -339,21 +415,6 @@
     .wall-btn-row {
       margin-top: 6px;
       text-align: right;
-    }
-
-    .retro-btn {
-      background: #eceff6;
-      border: 1px solid #3b5998;
-      color: #3b5998;
-      font-size: 11px;
-      font-weight: bold;
-      padding: 3px 10px;
-      cursor: pointer;
-    }
-
-    .retro-btn:hover {
-      background-color: #3b5998;
-      color: #ffffff;
     }
 
     .wall-feed {
@@ -402,7 +463,6 @@
       word-break: break-word;
     }
 
-    /* Right Sidebar (Friend Grid & Mutuals) */
     .friends-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -431,16 +491,151 @@
       word-break: break-word;
     }
 
-    /* System Notification Toast */
-    #system-toast {
+    .mobile-top-profile {
       display: none;
-      background-color: #fff8cc;
-      border-bottom: 1px solid #e2c822;
-      padding: 7px 12px;
-      font-size: 11px;
+    }
+
+    /* ==========================================================================
+       PAGE 2: SEARCH TAB SPECIFICS
+       ========================================================================== */
+    .search-results-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .search-results-table th {
+      background-color: #eceff6;
+      border: 1px solid #d8dfea;
+      padding: 6px 8px;
       font-weight: bold;
-      color: #555;
-      text-align: center;
+      color: #3b5998;
+      text-align: left;
+    }
+
+    .search-results-table td {
+      border: 1px solid #d8dfea;
+      padding: 6px 8px;
+      vertical-align: middle;
+    }
+
+    .search-user-pic {
+      width: 38px;
+      height: 38px;
+      object-fit: cover;
+      border: 1px solid #b3c2dd;
+      display: block;
+    }
+
+    /* ==========================================================================
+       PAGE 3: BROWSE TAB SPECIFICS
+       ========================================================================== */
+    .browse-columns {
+      display: flex;
+      gap: 15px;
+    }
+
+    .browse-card {
+      flex: 1;
+      border: 1px solid #d8dfea;
+      background: #ffffff;
+    }
+
+    .directory-list {
+      list-style: none;
+      padding: 6px 10px;
+    }
+
+    .directory-list li {
+      padding: 4px 0;
+      border-bottom: 1px dotted #eeeeee;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .directory-list li:last-child {
+      border-bottom: none;
+    }
+
+    .directory-count {
+      color: #888888;
+      font-size: 10px;
+    }
+
+    .az-bar {
+      background: #eceff6;
+      padding: 6px 8px;
+      border: 1px solid #d8dfea;
+      margin-bottom: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .az-bar a {
+      padding: 2px 4px;
+    }
+
+    /* ==========================================================================
+       PAGE 4: INVITE TAB SPECIFICS
+       ========================================================================== */
+    .invite-instruction {
+      background-color: #f7f7f7;
+      border-left: 3px solid #3b5998;
+      padding: 8px 12px;
+      margin-bottom: 14px;
+      color: #444;
+      line-height: 1.4;
+    }
+
+    /* ==========================================================================
+       PAGE 5: PRIVACY TAB SPECIFICS
+       ========================================================================== */
+    .privacy-option-row {
+      padding: 10px 0;
+      border-bottom: 1px dotted #d8dfea;
+    }
+
+    .privacy-option-row:last-child {
+      border-bottom: none;
+    }
+
+    .privacy-title {
+      font-weight: bold;
+      color: #3b5998;
+      margin-bottom: 4px;
+    }
+
+    /* ==========================================================================
+       PAGE 6: LOGOUT SCREEN SPECIFICS
+       ========================================================================== */
+    .logout-banner-container {
+      max-width: 580px;
+      margin: 25px auto;
+      border: 1px solid #3b5998;
+      background: #ffffff;
+      box-shadow: 1px 1px 6px rgba(0,0,0,0.1);
+    }
+
+    .logout-header-bar {
+      background-color: #3b5998;
+      color: #ffffff;
+      padding: 7px 12px;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    .logout-body {
+      padding: 18px 22px;
+    }
+
+    .login-box {
+      background: #f7f7f7;
+      border: 1px solid #d8dfea;
+      padding: 12px;
+      margin-top: 14px;
     }
 
     /* Classic Footer */
@@ -468,11 +663,6 @@
       margin-right: 3px;
     }
 
-    /* Mobile specific banner container for reordered title */
-    .mobile-top-profile {
-      display: none;
-    }
-
     /* ==========================================================================
        MOBILE RESPONSIVE VIEW (Portrait vertical screens: max-width: 768px)
        ========================================================================== */
@@ -488,7 +678,6 @@
         box-shadow: none;
       }
 
-      /* Stack header and allow horizontal scroll for navigation links */
       #header {
         flex-direction: column;
         align-items: flex-start;
@@ -522,7 +711,6 @@
         font-size: 11px;
       }
 
-      /* Subheader wraps cleanly */
       #sub-bar {
         flex-direction: column;
         align-items: flex-start;
@@ -539,12 +727,11 @@
         width: auto;
       }
 
-      /* Stack 3-column layout into vertical flow with custom order */
+      /* Profile reordering for vertical smartphone screen */
       #main-container {
         flex-direction: column;
       }
 
-      /* Show mobile header banner above everything else */
       .mobile-top-profile {
         display: block;
         order: 1;
@@ -552,7 +739,6 @@
         background-color: #ffffff;
       }
 
-      /* 2. Photo, Actions, and Contact information */
       #col-left {
         width: 100%;
         order: 2;
@@ -561,7 +747,6 @@
         padding: 10px;
       }
 
-      /* 3. Main Information Tables & The Wall */
       #col-center {
         width: 100%;
         order: 3;
@@ -570,12 +755,10 @@
         padding: 10px;
       }
 
-      /* Hide the redundant desktop title from center column */
       #col-center .profile-title {
         display: none;
       }
 
-      /* 4. Friends grid, Groups, and Announcements at bottom */
       #col-right {
         width: 100%;
         order: 4;
@@ -583,7 +766,6 @@
         padding: 10px;
       }
 
-      /* Larger touch-friendly action buttons */
       .action-links li {
         margin-bottom: 8px;
         padding-left: 16px;
@@ -594,7 +776,6 @@
         display: inline-block;
       }
 
-      /* Responsive tables and full-width forms */
       .label-col {
         width: 32%;
         font-size: 10.5px;
@@ -611,7 +792,6 @@
         font-size: 12px;
       }
 
-      /* 4-column responsive grid on mobile screens for friends */
       .friends-grid {
         grid-template-columns: repeat(4, 1fr);
         gap: 8px;
@@ -622,14 +802,17 @@
         height: 58px;
       }
 
-      .friend-name {
-        font-size: 9.5px;
+      /* Browse subpage columns stack on mobile */
+      .browse-columns {
+        flex-direction: column;
       }
 
-      /* Footer links wrapping */
-      #footer {
-        padding: 12px 8px;
-        line-height: 1.6;
+      .retro-input, .retro-select {
+        max-width: 100%;
+      }
+
+      .logout-banner-container {
+        margin: 10px;
       }
     }
   </style>
@@ -640,16 +823,16 @@
   <!-- Classic Header Banner -->
   <header id="header">
     <div class="brand-section">
-      <span class="brand-logo">[thefacebook]</span>
+      <span class="brand-logo" onclick="switchTab('profile')">[thefacebook]</span>
       <span class="brand-tagline">an online directory that connects people through social networks at colleges.</span>
     </div>
-    <nav class="top-nav">
-      <a href="javascript:void(0)" onclick="notify('Viewing Mark Zuckerberg\'s profile');">profile</a>
-      <a href="javascript:void(0)" onclick="notify('Directory search is ready');">search</a>
-      <a href="javascript:void(0)" onclick="notify('Browsing Harvard College network');">browse</a>
-      <a href="javascript:void(0)" onclick="notify('Invitations sent to valid .edu accounts');">invite</a>
-      <a href="javascript:void(0)" onclick="notify('Viewing privacy settings');">privacy</a>
-      <a href="javascript:void(0)" onclick="notify('Session logged out (Demo)');">logout</a>
+    <nav class="top-nav" id="topNav">
+      <a href="javascript:void(0)" id="nav-profile" class="active-nav" onclick="switchTab('profile')">profile</a>
+      <a href="javascript:void(0)" id="nav-search" onclick="switchTab('search')">search</a>
+      <a href="javascript:void(0)" id="nav-browse" onclick="switchTab('browse')">browse</a>
+      <a href="javascript:void(0)" id="nav-invite" onclick="switchTab('invite')">invite</a>
+      <a href="javascript:void(0)" id="nav-privacy" onclick="switchTab('privacy')">privacy</a>
+      <a href="javascript:void(0)" id="nav-logout" onclick="switchTab('logout')">logout</a>
     </nav>
   </header>
 
@@ -657,310 +840,687 @@
   <div id="sub-bar">
     <div>
       <span class="connection-status-dot"></span>
-      <span class="status-announcement">Harvard Network: Kirkland House</span>
+      <span class="status-announcement" id="statusNetworkLabel">Harvard Network: Kirkland House</span>
     </div>
     <div class="search-box">
       <input type="text" id="searchInput" placeholder="Search people...">
-      <button type="button" onclick="searchProfile()">Find</button>
+      <button type="button" onclick="quickHeaderSearch()">Find</button>
     </div>
   </div>
 
   <!-- Notification Banner -->
   <div id="system-toast"></div>
 
-  <!-- 3-Column Profile Section -->
-  <main id="main-container">
+  <!-- =========================================================================
+       SUBPAGE 1: PROFILE
+       ========================================================================= -->
+  <div id="page-profile" class="tab-page active-page">
+    <main id="main-container">
 
-    <!-- Mobile-Only Top Title Banner (Displays first on portrait mobile screens) -->
-    <div class="mobile-top-profile">
-      <div class="profile-title" style="margin-bottom: 6px;">
-        <h1>Mark Zuckerberg</h1>
-        <div class="network-badge">Harvard Undergrad Profile</div>
+      <!-- Mobile-Only Top Title Banner -->
+      <div class="mobile-top-profile">
+        <div class="profile-title" style="margin-bottom: 6px;">
+          <h1>Mark Zuckerberg</h1>
+          <div class="network-badge">Harvard Undergrad Profile</div>
+        </div>
+        <div class="member-status" style="margin-bottom: 6px;">
+          <strong>Status:</strong> building features for thefacebook.com into the early morning... ☕
+        </div>
       </div>
-      <div class="member-status" style="margin-bottom: 6px;">
-        <strong>Status:</strong> building features for thefacebook.com into the early morning... ☕
+
+      <!-- LEFT COLUMN: Picture & Actions -->
+      <aside id="col-left">
+        <div class="profile-pic-container">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=320&h=380&auto=format&fit=crop&q=80" 
+               alt="Mark Profile Picture" 
+               onerror="this.src='https://placehold.co/160x190/3b5998/ffffff?text=User+Picture'">
+          <div class="status-badge">Online now</div>
+        </div>
+
+        <div class="left-section-box">
+          <ul class="action-links">
+            <li><a href="javascript:void(0)" onclick="focusWall()">Post to Mark's Wall</a></li>
+            <li><a href="javascript:void(0)" onclick="notify('Message window opened for Mark.')">Send Mark a Message</a></li>
+            <li><a href="javascript:void(0)" onclick="pokeUser()">Poke Mark! (<span id="pokeCounter">42</span>)</a></li>
+            <li><a href="javascript:void(0)" onclick="notify('Mark is already in your Harvard friend list.')">View Mark's Friends</a></li>
+            <li><a href="javascript:void(0)" onclick="notify('Mutual connections: Eduardo, Chris, Dustin.')">View Mutual Friends (3)</a></li>
+          </ul>
+        </div>
+
+        <div class="left-section-box">
+          <div class="left-header">Network Status</div>
+          <p style="margin-bottom: 4px;"><strong>Harvard</strong></p>
+          <p style="color: #666;">Undergrad: Class of '06</p>
+          <p style="color: #666;">Member since: Feb 4, 2004</p>
+        </div>
+
+        <div class="left-section-box">
+          <div class="left-header">Contact Info</div>
+          <p><strong>Email:</strong><br><a href="mailto:mark@harvard.edu">mark@harvard.edu</a></p>
+          <p style="margin-top: 4px;"><strong>Screenname:</strong><br>zuck (AIM)</p>
+          <p style="margin-top: 4px;"><strong>Mobile:</strong><br>617-555-0143</p>
+          <p style="margin-top: 4px;"><strong>Room:</strong><br>Kirkland H-33</p>
+        </div>
+      </aside>
+
+      <!-- CENTER COLUMN: Personal Info, Education & The Wall -->
+      <section id="col-center">
+        <!-- Desktop header -->
+        <div class="profile-title">
+          <h1>Mark Zuckerberg</h1>
+          <div class="network-badge">Harvard Undergrad Profile</div>
+        </div>
+
+        <div class="member-status">
+          <strong>Status:</strong> building features for thefacebook.com into the early morning... ☕
+        </div>
+
+        <!-- Information Box -->
+        <div class="retro-box">
+          <div class="retro-box-header">
+            <span>Information</span>
+            <span class="edit-link"><a href="javascript:void(0)" onclick="notify('Profile editing restricted in guest view.')">[ edit ]</a></span>
+          </div>
+          <table class="retro-table">
+            <tbody>
+              <tr>
+                <td class="label-col">Account Type:</td>
+                <td class="value-col">Student</td>
+              </tr>
+              <tr>
+                <td class="label-col">Sex:</td>
+                <td class="value-col">Male</td>
+              </tr>
+              <tr>
+                <td class="label-col">Relationship:</td>
+                <td class="value-col">In a Relationship with Priscilla Chan</td>
+              </tr>
+              <tr>
+                <td class="label-col">Looking For:</td>
+                <td class="value-col">Friendship, Coding Collaborators, Brainstorming</td>
+              </tr>
+              <tr>
+                <td class="label-col">Birthday:</td>
+                <td class="value-col">May 14, 1984</td>
+              </tr>
+              <tr>
+                <td class="label-col">Hometown:</td>
+                <td class="value-col">Dobbs Ferry, New York</td>
+              </tr>
+              <tr>
+                <td class="label-col">High School:</td>
+                <td class="value-col"><a href="javascript:void(0)">Phillips Exeter Academy '02</a></td>
+              </tr>
+              <tr>
+                <td class="label-col">Concentration:</td>
+                <td class="value-col">Computer Science, Psychology</td>
+              </tr>
+              <tr>
+                <td class="label-col">Favorite Music:</td>
+                <td class="value-col">Daft Punk, Green Day, Guster, Radiohead, Shakira</td>
+              </tr>
+              <tr>
+                <td class="label-col">Favorite Books:</td>
+                <td class="value-col">The Aeneid, Ender's Game, Cryptonomicon</td>
+              </tr>
+              <tr>
+                <td class="label-col">About Me:</td>
+                <td class="value-col">
+                  I'm trying to make the world a more open place by helping people connect and share. 
+                  PHP, MySQL, Apache, and late night pizza deliveries to Kirkland House.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Education Box -->
+        <div class="retro-box">
+          <div class="retro-box-header">
+            <span>Education and Work</span>
+          </div>
+          <table class="retro-table">
+            <tbody>
+              <tr>
+                <td class="label-col">College:</td>
+                <td class="value-col"><strong>Harvard University '06</strong><br>Kirkland House Resident</td>
+              </tr>
+              <tr>
+                <td class="label-col">Classes:</td>
+                <td class="value-col">
+                  <a href="javascript:void(0)">CS 50</a> (Intro to Computer Science), 
+                  <a href="javascript:void(0)">CS 161</a> (Operating Systems), 
+                  <a href="javascript:void(0)">PSY 1</a> (General Psychology)
+                </td>
+              </tr>
+              <tr>
+                <td class="label-col">Clubs / Groups:</td>
+                <td class="value-col">
+                  <a href="javascript:void(0)">Kirkland House Ping-Pong</a>, 
+                  <a href="javascript:void(0)">Alpha Epsilon Pi</a>, 
+                  <a href="javascript:void(0)">Harvard Computer Society</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- The Wall Box -->
+        <div class="retro-box" id="wall-section">
+          <div class="retro-box-header">
+            <span>The Wall</span>
+            <span class="edit-link" id="wall-counter">Displaying 4 wall posts</span>
+          </div>
+          
+          <!-- Post Submission Box -->
+          <div class="wall-input-container">
+            <textarea id="newWallText" placeholder="Write something on Mark's Wall..."></textarea>
+            <div class="wall-btn-row">
+              <button class="retro-btn" type="button" onclick="submitWallPost()">Post to Wall</button>
+            </div>
+          </div>
+
+          <!-- Feed List -->
+          <div class="wall-feed" id="wallFeed">
+            
+            <div class="wall-post">
+              <img class="wall-thumb" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80" alt="Eduardo Saverin" onerror="this.src='https://placehold.co/44x44/3b5998/ffffff?text=E'">
+              <div class="wall-content">
+                <div>
+                  <a href="javascript:void(0)" class="wall-author">Eduardo Saverin</a>
+                  <span class="wall-time">Today at 2:14 am</span>
+                </div>
+                <div class="wall-msg">Server bills for the Columbia and Stanford rollout are approved. Let me know when the Apache cluster is ready.</div>
+              </div>
+            </div>
+
+            <div class="wall-post">
+              <img class="wall-thumb" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="Dustin Moskovitz" onerror="this.src='https://placehold.co/44x44/3b5998/ffffff?text=D'">
+              <div class="wall-content">
+                <div>
+                  <a href="javascript:void(0)" class="wall-author">Dustin Moskovitz</a>
+                  <span class="wall-time">Yesterday at 11:42 pm</span>
+                </div>
+                <div class="wall-msg">Fixed the session bug in the photo uploader. Can we get Red Bull before we debug the database cache?</div>
+              </div>
+            </div>
+
+            <div class="wall-post">
+              <img class="wall-thumb" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="Priscilla Chan" onerror="this.src='https://placehold.co/44x44/3b5998/ffffff?text=P'">
+              <div class="wall-content">
+                <div>
+                  <a href="javascript:void(0)" class="wall-author">Priscilla Chan</a>
+                  <span class="wall-time">Yesterday at 6:18 pm</span>
+                </div>
+                <div class="wall-msg">Don't forget to eat dinner tonight! Meet me outside the dining hall around 7. ❤️</div>
+              </div>
+            </div>
+
+            <div class="wall-post">
+              <img class="wall-thumb" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=100&auto=format&fit=crop&q=80" alt="Chris Hughes" onerror="this.src='https://placehold.co/44x44/3b5998/ffffff?text=C'">
+              <div class="wall-content">
+                <div>
+                  <a href="javascript:void(0)" class="wall-author">Chris Hughes</a>
+                  <span class="wall-time">Oct 14 at 4:02 pm</span>
+                </div>
+                <div class="wall-msg">The press release copy for Yale is drafted. Check your Harvard Webmail account when you get a chance!</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: Friends & Networks -->
+      <aside id="col-right">
+        <div class="retro-box">
+          <div class="retro-box-header">
+            <span>Friends (6)</span>
+            <span class="edit-link"><a href="javascript:void(0)" onclick="notify('Showing all Harvard contacts')">[ see all ]</a></span>
+          </div>
+          <div class="friends-grid">
+            
+            <div class="friend-cell">
+              <img class="friend-avatar" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80" alt="Eduardo" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Eduardo'">
+              <a href="javascript:void(0)" class="friend-name">Eduardo Saverin</a>
+            </div>
+
+            <div class="friend-cell">
+              <img class="friend-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="Dustin" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Dustin'">
+              <a href="javascript:void(0)" class="friend-name">Dustin Moskovitz</a>
+            </div>
+
+            <div class="friend-cell">
+              <img class="friend-avatar" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="Priscilla" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Priscilla'">
+              <a href="javascript:void(0)" class="friend-name">Priscilla Chan</a>
+            </div>
+
+            <div class="friend-cell">
+              <img class="friend-avatar" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=100&auto=format&fit=crop&q=80" alt="Chris" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Chris'">
+              <a href="javascript:void(0)" class="friend-name">Chris Hughes</a>
+            </div>
+
+            <div class="friend-cell">
+              <img class="friend-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80" alt="Sean" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Sean'">
+              <a href="javascript:void(0)" class="friend-name">Sean Parker</a>
+            </div>
+
+            <div class="friend-cell">
+              <img class="friend-avatar" src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=100&auto=format&fit=crop&q=80" alt="Andrew" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Andrew'">
+              <a href="javascript:void(0)" class="friend-name">Andrew McCollum</a>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="retro-box">
+          <div class="retro-box-header">
+            <span>Mutual Groups (3)</span>
+          </div>
+          <div style="padding: 8px;">
+            <p style="margin-bottom: 6px;">• <a href="javascript:void(0)">Kirkland House Dining Hall Rats</a></p>
+            <p style="margin-bottom: 6px;">• <a href="javascript:void(0)">Ivy League Web Developers</a></p>
+            <p style="margin-bottom: 6px;">• <a href="javascript:void(0)">PHP & Apache Enthusiasts</a></p>
+          </div>
+        </div>
+
+        <div class="retro-box" style="background-color: #fafafa; border: 1px dashed #b0bed9;">
+          <div class="retro-box-header" style="background-color: #e5ebf5;">
+            <span>Campus Announcement</span>
+          </div>
+          <div style="padding: 8px; color: #555;">
+            <strong>CS Hackathon 2005:</strong> Kirkland Master's Lounge this Friday at 8:00 PM. Free pizza &amp; caffeinated sodas provided.
+          </div>
+        </div>
+      </aside>
+
+    </main>
+  </div>
+
+  <!-- =========================================================================
+       SUBPAGE 2: SEARCH (TheFacebook Directory Search)
+       ========================================================================= -->
+  <div id="page-search" class="tab-page">
+    <div class="subpage-container">
+      <div class="subpage-header-row">
+        <h1 class="subpage-title">Search College Directory</h1>
+        <div class="subpage-subtitle">Search your campus network or expanding Ivy League colleges.</div>
+      </div>
+
+      <div class="retro-box">
+        <div class="retro-box-header">
+          <span>Search Criteria</span>
+          <span>Harvard Network</span>
+        </div>
+        <div class="retro-box-body">
+          <table class="retro-table" style="max-width: 650px;">
+            <tr>
+              <td class="label-col">Name:</td>
+              <td class="value-col">
+                <input type="text" id="advSearchName" class="retro-input" placeholder="e.g. Eduardo, Chris, Priscilla">
+              </td>
+            </tr>
+            <tr>
+              <td class="label-col">Status:</td>
+              <td class="value-col">
+                <select id="advSearchStatus" class="retro-select">
+                  <option value="">Any Status</option>
+                  <option value="Student">Undergraduate Student</option>
+                  <option value="Alum">Alumnus / Alumna</option>
+                  <option value="Grad">Graduate Student</option>
+                  <option value="Faculty">Faculty & Staff</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td class="label-col">College / Network:</td>
+              <td class="value-col">
+                <select id="advSearchCollege" class="retro-select">
+                  <option value="Harvard">Harvard University</option>
+                  <option value="Columbia">Columbia University</option>
+                  <option value="Stanford">Stanford University</option>
+                  <option value="Yale">Yale University</option>
+                  <option value="Dartmouth">Dartmouth College</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td class="label-col">House / Residence:</td>
+              <td class="value-col">
+                <select id="advSearchHouse" class="retro-select">
+                  <option value="">Any House / Dorm</option>
+                  <option value="Kirkland">Kirkland House</option>
+                  <option value="Adams">Adams House</option>
+                  <option value="Lowell">Lowell House</option>
+                  <option value="Eliot">Eliot House</option>
+                  <option value="Cabot">Cabot House</option>
+                  <option value="Dunster">Dunster House</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td class="label-col">Graduation Year:</td>
+              <td class="value-col">
+                <select id="advSearchYear" class="retro-select">
+                  <option value="">Any Year</option>
+                  <option value="2004">2004</option>
+                  <option value="2005">2005</option>
+                  <option value="2006">2006</option>
+                  <option value="2007">2007</option>
+                  <option value="2008">2008</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td class="label-col"></td>
+              <td class="value-col" style="padding-top: 10px;">
+                <button type="button" class="retro-btn" onclick="executeAdvancedSearch()">Search Directory</button>
+                <button type="button" class="retro-btn" style="background:#fff;" onclick="resetSearch()">Reset Filters</button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Search Results Table -->
+      <div class="retro-box">
+        <div class="retro-box-header">
+          <span id="searchResultsCount">Directory Matches (6 students found)</span>
+          <span>Sort by: Last Name</span>
+        </div>
+        <div class="retro-box-body" style="padding: 0;">
+          <table class="search-results-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;">Photo</th>
+                <th>Name</th>
+                <th>Status &amp; Class</th>
+                <th>Residence</th>
+                <th>Concentration</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="searchResultsBody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
+  </div>
 
-    <!-- LEFT COLUMN: Picture & Actions (Order 2 on mobile) -->
-    <aside id="col-left">
-      <div class="profile-pic-container">
-        <!-- Vintage style profile photo -->
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=320&h=380&auto=format&fit=crop&q=80" 
-             alt="Mark Profile Picture" 
-             onerror="this.src='https://placehold.co/160x190/3b5998/ffffff?text=User+Picture'">
-        <div class="status-badge">Online now</div>
+  <!-- =========================================================================
+       SUBPAGE 3: BROWSE (Directory Browser)
+       ========================================================================= -->
+  <div id="page-browse" class="tab-page">
+    <div class="subpage-container">
+      <div class="subpage-header-row">
+        <h1 class="subpage-title">Browse Harvard Directory</h1>
+        <div class="subpage-subtitle">Explore students organized by House, Graduating Class, or Alphabetical list.</div>
       </div>
 
-      <div class="left-section-box">
-        <ul class="action-links">
-          <li><a href="javascript:void(0)" onclick="focusWall()">Post to Mark's Wall</a></li>
-          <li><a href="javascript:void(0)" onclick="notify('Message window opened for Mark.')">Send Mark a Message</a></li>
-          <li><a href="javascript:void(0)" onclick="pokeUser()">Poke Mark! (<span id="pokeCounter">42</span>)</a></li>
-          <li><a href="javascript:void(0)" onclick="notify('Mark is already in your Harvard friend list.')">View Mark's Friends</a></li>
-          <li><a href="javascript:void(0)" onclick="notify('Mutual connections: Eduardo, Chris, Dustin.')">View Mutual Friends (3)</a></li>
+      <!-- Alphabetical Directory Index -->
+      <div class="az-bar">
+        <span>Browse A-Z:</span>
+        <a href="javascript:void(0)" onclick="browseFilter('A')">A</a>
+        <a href="javascript:void(0)" onclick="browseFilter('B')">B</a>
+        <a href="javascript:void(0)" onclick="browseFilter('C')">C</a>
+        <a href="javascript:void(0)" onclick="browseFilter('D')">D</a>
+        <a href="javascript:void(0)" onclick="browseFilter('E')">E</a>
+        <a href="javascript:void(0)" onclick="browseFilter('F')">F</a>
+        <a href="javascript:void(0)" onclick="browseFilter('G')">G</a>
+        <a href="javascript:void(0)" onclick="browseFilter('H')">H</a>
+        <a href="javascript:void(0)" onclick="browseFilter('J')">J</a>
+        <a href="javascript:void(0)" onclick="browseFilter('K')">K</a>
+        <a href="javascript:void(0)" onclick="browseFilter('L')">L</a>
+        <a href="javascript:void(0)" onclick="browseFilter('M')">M</a>
+        <a href="javascript:void(0)" onclick="browseFilter('P')">P</a>
+        <a href="javascript:void(0)" onclick="browseFilter('R')">R</a>
+        <a href="javascript:void(0)" onclick="browseFilter('S')">S</a>
+        <a href="javascript:void(0)" onclick="browseFilter('W')">W</a>
+        <a href="javascript:void(0)" onclick="browseFilter('Z')">Z</a>
+      </div>
+
+      <div class="browse-columns">
+        <!-- Harvard Houses Directory -->
+        <div class="browse-card">
+          <div class="retro-box-header">Harvard Houses (Dorms)</div>
+          <ul class="directory-list">
+            <li><a href="javascript:void(0)" onclick="filterBrowse('Kirkland House')">Kirkland House</a> <span class="directory-count">384 members</span></li>
+            <li><a href="javascript:void(0)" onclick="filterBrowse('Adams House')">Adams House</a> <span class="directory-count">412 members</span></li>
+            <li><a href="javascript:void(0)" onclick="filterBrowse('Lowell House')">Lowell House</a> <span class="directory-count">390 members</span></li>
+            <li><a href="javascript:void(0)" onclick="filterBrowse('Eliot House')">Eliot House</a> <span class="directory-count">425 members</span></li>
+            <li><a href="javascript:void(0)" onclick="filterBrowse('Cabot House')">Cabot House</a> <span class="directory-count">360 members</span></li>
+            <li><a href="javascript:void(0)" onclick="filterBrowse('Dunster House')">Dunster House</a> <span class="directory-count">378 members</span></li>
+            <li><a href="javascript:void(0)" onclick="filterBrowse('Mather House')">Mather House</a> <span class="directory-count">405 members</span></li>
+            <li><a href="javascript:void(0)" onclick="filterBrowse('Winthrop House')">Winthrop House</a> <span class="directory-count">392 members</span></li>
+          </ul>
+        </div>
+
+        <!-- Undergraduate Classes -->
+        <div class="browse-card">
+          <div class="retro-box-header">Harvard Classes</div>
+          <ul class="directory-list">
+            <li><a href="javascript:void(0)" onclick="filterBrowse('Class of 2004')">Class of 2004 (Seniors)</a> <span class="directory-count">1,620 members</span></li>
+            <li><a href="javascript:void(0)" onclick="filterBrowse('Class of 2005')">Class of 2005 (Juniors)</a> <span class="directory-count">1,644 members</span></li>
+            <li><a href="javascript:void(0)" onclick="filterBrowse('Class of 2006')">Class of 2006 (Sophomores)</a> <span class="directory-count">1,680 members</span></li>
+            <li><a href="javascript:void(0)" onclick="filterBrowse('Class of 2007')">Class of 2007 (Freshmen)</a> <span class="directory-count">1,710 members</span></li>
+            <li><a href="javascript:void(0)" onclick="filterBrowse('Graduate Schools')">Harvard Graduate Students</a> <span class="directory-count">840 members</span></li>
+          </ul>
+
+          <div class="retro-box-header" style="margin-top: 10px;">Partner Ivy Networks</div>
+          <ul class="directory-list">
+            <li><a href="javascript:void(0)" onclick="notify('Connecting to Columbia University network directory...')">Columbia University</a> <span class="directory-count">Active</span></li>
+            <li><a href="javascript:void(0)" onclick="notify('Connecting to Stanford University network directory...')">Stanford University</a> <span class="directory-count">Active</span></li>
+            <li><a href="javascript:void(0)" onclick="notify('Connecting to Yale University network directory...')">Yale University</a> <span class="directory-count">Active</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       SUBPAGE 4: INVITE (Invite Classmates via .EDU email)
+       ========================================================================= -->
+  <div id="page-invite" class="tab-page">
+    <div class="subpage-container">
+      <div class="subpage-header-row">
+        <h1 class="subpage-title">Invite Friends to The Facebook</h1>
+        <div class="subpage-subtitle">Expanding collegiate social networks across Ivy League campuses.</div>
+      </div>
+
+      <div class="invite-instruction">
+        <strong>How invitations work:</strong> You can invite any student, alumnus, or faculty member who owns a valid 
+        collegiate <strong>.edu</strong> email address (e.g. <code>@harvard.edu</code>, <code>@columbia.edu</code>, <code>@stanford.edu</code>). 
+        They will receive a personalized registration key to create their profile.
+      </div>
+
+      <div class="retro-box">
+        <div class="retro-box-header">Send Collegiate Invitation</div>
+        <div class="retro-box-body">
+          <table class="retro-table" style="max-width: 650px;">
+            <tr>
+              <td class="label-col">Friend's Name:</td>
+              <td class="value-col">
+                <input type="text" id="inviteName" class="retro-input" placeholder="e.g. Bill Gates">
+              </td>
+            </tr>
+            <tr>
+              <td class="label-col">Friend's .edu Email:</td>
+              <td class="value-col">
+                <input type="email" id="inviteEmail" class="retro-input" placeholder="friend@harvard.edu">
+              </td>
+            </tr>
+            <tr>
+              <td class="label-col">Campus Network:</td>
+              <td class="value-col">
+                <select id="inviteCollege" class="retro-select">
+                  <option value="Harvard">Harvard University</option>
+                  <option value="Columbia">Columbia University</option>
+                  <option value="Stanford">Stanford University</option>
+                  <option value="Yale">Yale University</option>
+                  <option value="Dartmouth">Dartmouth College</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td class="label-col">Personal Note:</td>
+              <td class="value-col">
+                <textarea id="inviteNote" class="retro-input" style="height: 60px;" placeholder="Hey, check out this Harvard directory site built by Mark Zuckerberg in Kirkland House."></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td class="label-col"></td>
+              <td class="value-col">
+                <button type="button" class="retro-btn" onclick="sendInvitation()">Send Invitation</button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Pending Invitations Table -->
+      <div class="retro-box">
+        <div class="retro-box-header">Your Pending Invitations (2 Sent)</div>
+        <div class="retro-box-body" style="padding: 0;">
+          <table class="search-results-table">
+            <thead>
+              <tr>
+                <th>Recipient</th>
+                <th>Email</th>
+                <th>Network</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="inviteListBody">
+              <tr>
+                <td><strong>Jessica Meyer</strong></td>
+                <td>jmeyer@harvard.edu</td>
+                <td>Harvard Undergrad</td>
+                <td style="color:#d35400;">Invitation sent Oct 15</td>
+              </tr>
+              <tr>
+                <td><strong>Tyler Winklevoss</strong></td>
+                <td>winklevoss@harvard.edu</td>
+                <td>Harvard Undergrad</td>
+                <td style="color:#27ae60;">Accepted (Joined)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       SUBPAGE 5: PRIVACY (Collegiate Privacy Controls)
+       ========================================================================= -->
+  <div id="page-privacy" class="tab-page">
+    <div class="subpage-container">
+      <div class="subpage-header-row">
+        <h1 class="subpage-title">Privacy and Security Settings</h1>
+        <div class="subpage-subtitle">Control who in the Harvard collegiate directory can see your information.</div>
+      </div>
+
+      <div class="retro-box">
+        <div class="retro-box-header">Profile &amp; Network Visibility</div>
+        <div class="retro-box-body">
+          
+          <div class="privacy-option-row">
+            <div class="privacy-title">Network Restriction</div>
+            <p style="margin-bottom: 6px; color:#555;">Choose whether your profile can be viewed by members outside of Harvard University:</p>
+            <label><input type="radio" name="priv_network" checked> Only people in the <strong>Harvard Network</strong> can view my profile</label><br>
+            <label><input type="radio" name="priv_network"> People in expanded Ivy League networks (Columbia, Stanford, Yale) can view</label>
+          </div>
+
+          <div class="privacy-option-row">
+            <div class="privacy-title">Phone Number &amp; Screenname Visibility</div>
+            <p style="margin-bottom: 6px; color:#555;">Control who can see your Kirkland room number, mobile phone, and AIM screenname:</p>
+            <label><input type="radio" name="priv_contact" checked> Only confirmed Friends</label><br>
+            <label><input type="radio" name="priv_contact"> Any undergraduate student with a valid Harvard .edu email</label><br>
+            <label><input type="radio" name="priv_contact"> Nobody (Private)</label>
+          </div>
+
+          <div class="privacy-option-row">
+            <div class="privacy-title">The Wall Settings</div>
+            <p style="margin-bottom: 6px; color:#555;">Permissions for leaving notes on your personal Wall:</p>
+            <label><input type="checkbox" checked> Allow friends to write on my Wall</label><br>
+            <label><input type="checkbox" checked> Send me an automated email when someone posts to my Wall or Pokes me</label>
+          </div>
+
+          <div class="privacy-option-row">
+            <div class="privacy-title">Directory Search Listing</div>
+            <label><input type="checkbox" checked> Show my profile in Harvard directory searches</label><br>
+            <label><input type="checkbox" checked> Allow classmates to search for me by class schedule (CS50, CS161, PSY1)</label>
+          </div>
+
+          <div style="margin-top: 14px;">
+            <button type="button" class="retro-btn" onclick="savePrivacy()">Save Privacy Settings</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       SUBPAGE 6: LOGOUT SCREEN
+       ========================================================================= -->
+  <div id="page-logout" class="tab-page">
+    <div class="logout-banner-container">
+      <div class="logout-header-bar">Welcome to Thefacebook</div>
+      <div class="logout-body">
+        <p style="font-size: 12px; margin-bottom: 12px; line-height: 1.5;">
+          <strong>Thefacebook</strong> is an online directory that connects people through social networks at colleges.
+        </p>
+
+        <p style="color: #555; margin-bottom: 14px; line-height: 1.4;">
+          We have opened up The Facebook to students at Harvard University. You can use Thefacebook to:
+        </p>
+
+        <ul style="margin-left: 20px; margin-bottom: 15px; color: #444; line-height: 1.5;">
+          <li>Search for people at your school</li>
+          <li>Find out who is in your classes</li>
+          <li>Look up your friends' friends</li>
+          <li>See a visualization of your social network</li>
         </ul>
-      </div>
 
-      <div class="left-section-box">
-        <div class="left-header">Network Status</div>
-        <p style="margin-bottom: 4px;"><strong>Harvard</strong></p>
-        <p style="color: #666;">Undergrad: Class of '06</p>
-        <p style="color: #666;">Member since: Feb 4, 2004</p>
-      </div>
-
-      <div class="left-section-box">
-        <div class="left-header">Contact Info</div>
-        <p><strong>Email:</strong><br><a href="mailto:mark@harvard.edu">mark@harvard.edu</a></p>
-        <p style="margin-top: 4px;"><strong>Screenname:</strong><br>zuck (AIM)</p>
-        <p style="margin-top: 4px;"><strong>Mobile:</strong><br>617-555-0143</p>
-        <p style="margin-top: 4px;"><strong>Room:</strong><br>Kirkland H-33</p>
-      </div>
-    </aside>
-
-    <!-- CENTER COLUMN: Personal Info, Education & The Wall (Order 3 on mobile) -->
-    <section id="col-center">
-      <!-- Desktop header (hidden in mobile viewport) -->
-      <div class="profile-title">
-        <h1>Mark Zuckerberg</h1>
-        <div class="network-badge">Harvard Undergrad Profile</div>
-      </div>
-
-      <div class="member-status">
-        <strong>Status:</strong> building features for thefacebook.com into the early morning... ☕
-      </div>
-
-      <!-- Information Box -->
-      <div class="retro-box">
-        <div class="retro-box-header">
-          <span>Information</span>
-          <span class="edit-link"><a href="javascript:void(0)" onclick="notify('Profile editing restricted in guest view.')">[ edit ]</a></span>
-        </div>
-        <table class="retro-table">
-          <tbody>
+        <div class="login-box">
+          <div style="font-weight: bold; color: #3b5998; margin-bottom: 8px;">Log In to Your College Account:</div>
+          <table class="retro-table">
             <tr>
-              <td class="label-col">Account Type:</td>
-              <td class="value-col">Student</td>
+              <td class="label-col" style="width: 100px;">Harvard Email:</td>
+              <td class="value-col"><input type="text" id="demoEmail" class="retro-input" value="mark@harvard.edu"></td>
             </tr>
             <tr>
-              <td class="label-col">Sex:</td>
-              <td class="value-col">Male</td>
+              <td class="label-col">Password:</td>
+              <td class="value-col"><input type="password" class="retro-input" value="••••••••"></td>
             </tr>
             <tr>
-              <td class="label-col">Relationship:</td>
-              <td class="value-col">In a Relationship with Priscilla Chan</td>
-            </tr>
-            <tr>
-              <td class="label-col">Looking For:</td>
-              <td class="value-col">Friendship, Coding Collaborators, Brainstorming</td>
-            </tr>
-            <tr>
-              <td class="label-col">Birthday:</td>
-              <td class="value-col">May 14, 1984</td>
-            </tr>
-            <tr>
-              <td class="label-col">Hometown:</td>
-              <td class="value-col">Dobbs Ferry, New York</td>
-            </tr>
-            <tr>
-              <td class="label-col">High School:</td>
-              <td class="value-col"><a href="javascript:void(0)">Phillips Exeter Academy '02</a></td>
-            </tr>
-            <tr>
-              <td class="label-col">Concentration:</td>
-              <td class="value-col">Computer Science, Psychology</td>
-            </tr>
-            <tr>
-              <td class="label-col">Favorite Music:</td>
-              <td class="value-col">Daft Punk, Green Day, Guster, Radiohead, Shakira</td>
-            </tr>
-            <tr>
-              <td class="label-col">Favorite Books:</td>
-              <td class="value-col">The Aeneid, Ender's Game, Cryptonomicon</td>
-            </tr>
-            <tr>
-              <td class="label-col">About Me:</td>
-              <td class="value-col">
-                I'm trying to make the world a more open place by helping people connect and share. 
-                PHP, MySQL, Apache, and late night pizza deliveries to Kirkland House.
+              <td></td>
+              <td style="padding-top: 8px;">
+                <button type="button" class="retro-btn" onclick="reLogin()">Log In to TheFacebook</button>
+                <button type="button" class="retro-btn" style="background:#fff;" onclick="switchTab('invite')">Register with .edu</button>
               </td>
             </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Education Box -->
-      <div class="retro-box">
-        <div class="retro-box-header">
-          <span>Education and Work</span>
-        </div>
-        <table class="retro-table">
-          <tbody>
-            <tr>
-              <td class="label-col">College:</td>
-              <td class="value-col"><strong>Harvard University '06</strong><br>Kirkland House Resident</td>
-            </tr>
-            <tr>
-              <td class="label-col">Classes:</td>
-              <td class="value-col">
-                <a href="javascript:void(0)">CS 50</a> (Intro to Computer Science), 
-                <a href="javascript:void(0)">CS 161</a> (Operating Systems), 
-                <a href="javascript:void(0)">PSY 1</a> (General Psychology)
-              </td>
-            </tr>
-            <tr>
-              <td class="label-col">Clubs / Groups:</td>
-              <td class="value-col">
-                <a href="javascript:void(0)">Kirkland House Ping-Pong</a>, 
-                <a href="javascript:void(0)">Alpha Epsilon Pi</a>, 
-                <a href="javascript:void(0)">Harvard Computer Society</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- The Wall Box -->
-      <div class="retro-box" id="wall-section">
-        <div class="retro-box-header">
-          <span>The Wall</span>
-          <span class="edit-link" id="wall-counter">Displaying 4 wall posts</span>
-        </div>
-        
-        <!-- Post Submission Box -->
-        <div class="wall-input-container">
-          <textarea id="newWallText" placeholder="Write something on Mark's Wall..."></textarea>
-          <div class="wall-btn-row">
-            <button class="retro-btn" type="button" onclick="submitWallPost()">Post to Wall</button>
-          </div>
+          </table>
         </div>
 
-        <!-- Feed List -->
-        <div class="wall-feed" id="wallFeed">
-          
-          <div class="wall-post">
-            <img class="wall-thumb" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80" alt="Eduardo Saverin" onerror="this.src='https://placehold.co/44x44/3b5998/ffffff?text=E'">
-            <div class="wall-content">
-              <div>
-                <a href="javascript:void(0)" class="wall-author">Eduardo Saverin</a>
-                <span class="wall-time">Today at 2:14 am</span>
-              </div>
-              <div class="wall-msg">Server bills for the Columbia and Stanford rollout are approved. Let me know when the Apache cluster is ready.</div>
-            </div>
-          </div>
-
-          <div class="wall-post">
-            <img class="wall-thumb" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="Dustin Moskovitz" onerror="this.src='https://placehold.co/44x44/3b5998/ffffff?text=D'">
-            <div class="wall-content">
-              <div>
-                <a href="javascript:void(0)" class="wall-author">Dustin Moskovitz</a>
-                <span class="wall-time">Yesterday at 11:42 pm</span>
-              </div>
-              <div class="wall-msg">Fixed the session bug in the photo uploader. Can we get Red Bull before we debug the database cache?</div>
-            </div>
-          </div>
-
-          <div class="wall-post">
-            <img class="wall-thumb" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="Priscilla Chan" onerror="this.src='https://placehold.co/44x44/3b5998/ffffff?text=P'">
-            <div class="wall-content">
-              <div>
-                <a href="javascript:void(0)" class="wall-author">Priscilla Chan</a>
-                <span class="wall-time">Yesterday at 6:18 pm</span>
-              </div>
-              <div class="wall-msg">Don't forget to eat dinner tonight! Meet me outside the dining hall around 7. ❤️</div>
-            </div>
-          </div>
-
-          <div class="wall-post">
-            <img class="wall-thumb" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=100&auto=format&fit=crop&q=80" alt="Chris Hughes" onerror="this.src='https://placehold.co/44x44/3b5998/ffffff?text=C'">
-            <div class="wall-content">
-              <div>
-                <a href="javascript:void(0)" class="wall-author">Chris Hughes</a>
-                <span class="wall-time">Oct 14 at 4:02 pm</span>
-              </div>
-              <div class="wall-msg">The press release copy for Yale is drafted. Check your Harvard Webmail account when you get a chance!</div>
-            </div>
-          </div>
-
+        <div style="margin-top: 14px; font-size: 10px; color: #777; text-align: center;">
+          Note: You must have a valid .edu email address to participate in this network.
         </div>
       </div>
-    </section>
-
-    <!-- RIGHT COLUMN: Friends & Networks (Order 4 on mobile) -->
-    <aside id="col-right">
-      <div class="retro-box">
-        <div class="retro-box-header">
-          <span>Friends (6)</span>
-          <span class="edit-link"><a href="javascript:void(0)" onclick="notify('Showing all Harvard contacts')">[ see all ]</a></span>
-        </div>
-        <div class="friends-grid">
-          
-          <div class="friend-cell">
-            <img class="friend-avatar" src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&auto=format&fit=crop&q=80" alt="Eduardo" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Eduardo'">
-            <a href="javascript:void(0)" class="friend-name">Eduardo Saverin</a>
-          </div>
-
-          <div class="friend-cell">
-            <img class="friend-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" alt="Dustin" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Dustin'">
-            <a href="javascript:void(0)" class="friend-name">Dustin Moskovitz</a>
-          </div>
-
-          <div class="friend-cell">
-            <img class="friend-avatar" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" alt="Priscilla" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Priscilla'">
-            <a href="javascript:void(0)" class="friend-name">Priscilla Chan</a>
-          </div>
-
-          <div class="friend-cell">
-            <img class="friend-avatar" src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=100&auto=format&fit=crop&q=80" alt="Chris" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Chris'">
-            <a href="javascript:void(0)" class="friend-name">Chris Hughes</a>
-          </div>
-
-          <div class="friend-cell">
-            <img class="friend-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80" alt="Sean" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Sean'">
-            <a href="javascript:void(0)" class="friend-name">Sean Parker</a>
-          </div>
-
-          <div class="friend-cell">
-            <img class="friend-avatar" src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=100&auto=format&fit=crop&q=80" alt="Andrew" onerror="this.src='https://placehold.co/52x52/3b5998/ffffff?text=Andrew'">
-            <a href="javascript:void(0)" class="friend-name">Andrew McCollum</a>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Quick Links / Groups Box -->
-      <div class="retro-box">
-        <div class="retro-box-header">
-          <span>Mutual Groups (3)</span>
-        </div>
-        <div style="padding: 8px;">
-          <p style="margin-bottom: 6px;">• <a href="javascript:void(0)">Kirkland House Dining Hall Rats</a></p>
-          <p style="margin-bottom: 6px;">• <a href="javascript:void(0)">Ivy League Web Developers</a></p>
-          <p style="margin-bottom: 6px;">• <a href="javascript:void(0)">PHP & Apache Enthusiasts</a></p>
-        </div>
-      </div>
-
-      <!-- System Ads / College notices of the era -->
-      <div class="retro-box" style="background-color: #fafafa; border: 1px dashed #b0bed9;">
-        <div class="retro-box-header" style="background-color: #e5ebf5;">
-          <span>Campus Announcement</span>
-        </div>
-        <div style="padding: 8px; color: #555;">
-          <strong>CS Hackathon 2005:</strong> Kirkland Master's Lounge this Friday at 8:00 PM. Free pizza &amp; caffeinated sodas provided.
-        </div>
-      </div>
-    </aside>
-
-  </main>
+    </div>
+  </div>
 
   <!-- Retro Footer -->
   <footer id="footer">
     <div>
-      <a href="javascript:void(0)" onclick="notify('About TheFacebook: A Mark Zuckerberg production.');">about</a> | 
-      <a href="javascript:void(0)" onclick="notify('FAQ: Must have a valid .edu email address to participate.');">faq</a> | 
+      <a href="javascript:void(0)" onclick="switchTab('profile'); notify('Viewing profile: Mark Zuckerberg');">about</a> | 
+      <a href="javascript:void(0)" onclick="notify('FAQ: College network accounts require a valid .edu address.');">faq</a> | 
       <a href="javascript:void(0)" onclick="notify('Contact: info@thefacebook.com');">contact</a> | 
-      <a href="javascript:void(0)" onclick="notify('Terms: Standard Ivy League collegiate conduct rules apply.');">terms</a> | 
-      <a href="javascript:void(0)" onclick="notify('Privacy: Only members of your college network can see your full profile.');">privacy</a>
+      <a href="javascript:void(0)" onclick="notify('Terms: Ivy League academic community guidelines apply.');">terms</a> | 
+      <a href="javascript:void(0)" onclick="switchTab('privacy')">privacy</a>
     </div>
     <div style="margin-top: 6px; color: #999;">
       a Mark Zuckerberg production<br>
@@ -970,8 +1530,131 @@
 </div>
 
 <script>
+  // Directory Mock Database of the classic Harvard era
+  const directoryUsers = [
+    {
+      name: "Mark Zuckerberg",
+      status: "Student",
+      classYear: "2006",
+      college: "Harvard",
+      residence: "Kirkland",
+      concentration: "Computer Science, Psychology",
+      img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces"
+    },
+    {
+      name: "Eduardo Saverin",
+      status: "Student",
+      classYear: "2006",
+      college: "Harvard",
+      residence: "Eliot",
+      concentration: "Economics",
+      img: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100&h=100&fit=crop&crop=faces"
+    },
+    {
+      name: "Dustin Moskovitz",
+      status: "Student",
+      classYear: "2006",
+      college: "Harvard",
+      residence: "Kirkland",
+      concentration: "Economics",
+      img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=faces"
+    },
+    {
+      name: "Priscilla Chan",
+      status: "Student",
+      classYear: "2007",
+      college: "Harvard",
+      residence: "Cabot",
+      concentration: "Biology",
+      img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&h=100&fit=crop&crop=faces"
+    },
+    {
+      name: "Chris Hughes",
+      status: "Student",
+      classYear: "2006",
+      college: "Harvard",
+      residence: "Kirkland",
+      concentration: "History & Literature",
+      img: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=100&h=100&fit=crop&crop=faces"
+    },
+    {
+      name: "Andrew McCollum",
+      status: "Student",
+      classYear: "2007",
+      college: "Harvard",
+      residence: "Adams",
+      concentration: "Computer Science",
+      img: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=100&h=100&fit=crop&crop=faces"
+    }
+  ];
+
   let pokeCount = 42;
   let totalPosts = 4;
+
+  // Render Directory Search Table
+  function renderSearchTable(list) {
+    const tbody = document.getElementById('searchResultsBody');
+    const countEl = document.getElementById('searchResultsCount');
+    countEl.textContent = `Directory Matches (${list.length} student${list.length === 1 ? '' : 's'} found)`;
+
+    if (list.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 18px; color: #888;">No directory results matching your criteria. Try loosening filters.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = list.map(u => `
+      <tr>
+        <td style="text-align:center;">
+          <img src="${u.img}" class="search-user-pic" alt="${u.name}" onerror="this.src='https://placehold.co/38x38/3b5998/ffffff?text=${encodeURIComponent(u.name.charAt(0))}'">
+        </td>
+        <td>
+          <a href="javascript:void(0)" onclick="viewMemberProfile('${u.name}')" style="font-weight:bold;">${escapeHtml(u.name)}</a>
+        </td>
+        <td>${escapeHtml(u.status)} ('${u.classYear.slice(-2)})</td>
+        <td>${escapeHtml(u.residence)} House</td>
+        <td>${escapeHtml(u.concentration)}</td>
+        <td>
+          <a href="javascript:void(0)" onclick="pokeMember('${u.name}')">[ poke ]</a> 
+          <a href="javascript:void(0)" onclick="notify('Message window opened for ${u.name}')">[ message ]</a>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  // Switch Subpages seamlessly
+  function switchTab(tabId) {
+    // Hide all pages
+    document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active-page'));
+    
+    // De-activate all top nav links
+    document.querySelectorAll('.top-nav a').forEach(a => a.classList.remove('active-nav'));
+
+    // Activate selected page and link
+    const targetPage = document.getElementById('page-' + tabId);
+    const targetNav = document.getElementById('nav-' + tabId);
+
+    if (targetPage) targetPage.classList.add('active-page');
+    if (targetNav) targetNav.classList.add('active-nav');
+
+    // Update status bar announcement
+    const statusLabel = document.getElementById('statusNetworkLabel');
+    if (tabId === 'profile') {
+      statusLabel.textContent = "Harvard Network: Kirkland House";
+    } else if (tabId === 'search') {
+      statusLabel.textContent = "Directory Search :: Harvard Undergraduates";
+      renderSearchTable(directoryUsers);
+    } else if (tabId === 'browse') {
+      statusLabel.textContent = "Browse Network Directory by House and Class";
+    } else if (tabId === 'invite') {
+      statusLabel.textContent = "Send Collegiate Invitations (.edu required)";
+    } else if (tabId === 'privacy') {
+      statusLabel.textContent = "Account Privacy and Network Settings";
+    } else if (tabId === 'logout') {
+      statusLabel.textContent = "Guest Session Logged Out";
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   // Vintage non-blocking notification banner
   function notify(msg) {
@@ -984,21 +1667,33 @@
     }, 3500);
   }
 
-  // Classic poke interaction with counter update
+  // Poking functions
   function pokeUser() {
     pokeCount++;
     document.getElementById('pokeCounter').textContent = pokeCount;
     notify(`You poked Mark! Total pokes: ${pokeCount}. A notification was sent to his inbox.`);
   }
 
-  // Scroll to and focus the Wall text area smoothly
+  function pokeMember(name) {
+    notify(`You poked ${name}! A notification has been sent.`);
+  }
+
+  function viewMemberProfile(name) {
+    if (name === "Mark Zuckerberg") {
+      switchTab('profile');
+    } else {
+      notify(`Loading full Kirkland/Harvard profile for ${name}... (Demo profile)`);
+    }
+  }
+
+  // Scroll to Wall
   function focusWall() {
     const wallInput = document.getElementById('newWallText');
     wallInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
     wallInput.focus();
   }
 
-  // Post to Wall functionality with animated vintage highlight
+  // Submit to Wall
   function submitWallPost() {
     const input = document.getElementById('newWallText');
     const text = input.value.trim();
@@ -1024,20 +1719,125 @@
       </div>
     `;
 
-    // Insert at top of feed
     feed.insertBefore(newPost, feed.firstChild);
     input.value = '';
 
     totalPosts++;
     document.getElementById('wall-counter').textContent = `Displaying ${totalPosts} wall posts`;
 
-    // Fade out highlight
     setTimeout(() => {
       newPost.style.transition = 'background-color 1.2s ease';
       newPost.style.backgroundColor = 'transparent';
     }, 1500);
 
     notify("Your note has been posted to Mark's Wall!");
+  }
+
+  // Quick Header Search
+  function quickHeaderSearch() {
+    const q = document.getElementById('searchInput').value.trim();
+    if (!q) {
+      notify("Please enter a name to search.");
+      return;
+    }
+    switchTab('search');
+    document.getElementById('advSearchName').value = q;
+    executeAdvancedSearch();
+  }
+
+  // Advanced Search Execution
+  function executeAdvancedSearch() {
+    const nameQ = document.getElementById('advSearchName').value.toLowerCase().trim();
+    const houseQ = document.getElementById('advSearchHouse').value;
+    const yearQ = document.getElementById('advSearchYear').value;
+    const statusQ = document.getElementById('advSearchStatus').value;
+
+    const filtered = directoryUsers.filter(u => {
+      const matchName = !nameQ || u.name.toLowerCase().includes(nameQ);
+      const matchHouse = !houseQ || u.residence.includes(houseQ);
+      const matchYear = !yearQ || u.classYear === yearQ;
+      const matchStatus = !statusQ || u.status === statusQ;
+      return matchName && matchHouse && matchYear && matchStatus;
+    });
+
+    renderSearchTable(filtered);
+    notify(`Search returned ${filtered.length} matching member(s).`);
+  }
+
+  function resetSearch() {
+    document.getElementById('advSearchName').value = '';
+    document.getElementById('advSearchHouse').value = '';
+    document.getElementById('advSearchYear').value = '';
+    document.getElementById('advSearchStatus').value = '';
+    renderSearchTable(directoryUsers);
+    notify("Search filters cleared.");
+  }
+
+  // Browse Directory filters
+  function filterBrowse(category) {
+    switchTab('search');
+    notify(`Filtered Harvard directory by "${category}"`);
+    if (category.includes('Kirkland')) {
+      document.getElementById('advSearchHouse').value = 'Kirkland';
+    } else if (category.includes('2006')) {
+      document.getElementById('advSearchYear').value = '2006';
+    }
+    executeAdvancedSearch();
+  }
+
+  function browseFilter(letter) {
+    switchTab('search');
+    document.getElementById('advSearchName').value = letter;
+    executeAdvancedSearch();
+    notify(`Showing Harvard students starting with '${letter}'`);
+  }
+
+  // Send Invitation
+  function sendInvitation() {
+    const name = document.getElementById('inviteName').value.trim();
+    const email = document.getElementById('inviteEmail').value.trim();
+    const college = document.getElementById('inviteCollege').value;
+
+    if (!name || !email) {
+      notify("Please provide both a name and an email address.");
+      return;
+    }
+
+    if (!email.endsWith('.edu')) {
+      notify("Note: Official registration keys require a valid .edu email domain.");
+      return;
+    }
+
+    const tbody = document.getElementById('inviteListBody');
+    const tr = document.createElement('tr');
+    tr.style.backgroundColor = '#ffffcc';
+    tr.innerHTML = `
+      <td><strong>${escapeHtml(name)}</strong></td>
+      <td>${escapeHtml(email)}</td>
+      <td>${escapeHtml(college)} Undergrad</td>
+      <td style="color:#d35400;">Invitation sent just now</td>
+    `;
+    tbody.insertBefore(tr, tbody.firstChild);
+
+    document.getElementById('inviteName').value = '';
+    document.getElementById('inviteEmail').value = '';
+    document.getElementById('inviteNote').value = '';
+
+    notify(`Invitation sent to ${name} at ${email}!`);
+  }
+
+  // Save Privacy Settings
+  function savePrivacy() {
+    notify("Your collegiate privacy settings have been updated and saved.");
+  }
+
+  // Re-login from Logout page
+  function reLogin() {
+    notify("Welcome back! Logging into the Harvard network...");
+    setTimeout(() => {
+      switchTab('profile');
+      notify("Logged in as Mark Zuckerberg (Harvard '06)");
+    }, 600);
   }
 
   // HTML escaper for safety
@@ -1047,15 +1847,10 @@
     return div.innerHTML;
   }
 
-  // Search input simulation
-  function searchProfile() {
-    const q = document.getElementById('searchInput').value.trim();
-    if (q) {
-      notify(`Searching Harvard directory for "${q}"...`);
-    } else {
-      notify("Please type a name to search the network.");
-    }
-  }
+  // Initialize
+  window.onload = function() {
+    renderSearchTable(directoryUsers);
+  };
 </script>
 
 </body>
