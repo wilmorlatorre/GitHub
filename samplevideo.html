@@ -135,6 +135,31 @@
       text-align: right;
     }
 
+    .fullscreen-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--text-main);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 8px;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+    }
+
+    .fullscreen-btn:hover {
+      background: rgba(56, 189, 248, 0.24);
+      border-color: var(--accent);
+    }
+
+    .fullscreen-btn:active {
+      transform: scale(0.98);
+    }
+
     /* Telemetry Grid: Milestones + On-Screen Log */
     .telemetry-grid {
       display: grid;
@@ -327,6 +352,10 @@
           <div class="progress-fill" id="progress-fill"></div>
         </div>
         <div class="progress-label" id="progress-label">0.0% (0:00)</div>
+        <button type="button" class="fullscreen-btn" id="fullscreen-toggle-btn" aria-label="Toggle Fullscreen">
+          <span aria-hidden="true">⛶</span>
+          <span id="fullscreen-btn-text">Fullscreen</span>
+        </button>
       </div>
     </section>
 
@@ -393,6 +422,8 @@
     const progressLabel = document.getElementById('progress-label');
     const resetBtn = document.getElementById('reset-tracking-btn');
     const clearLogBtn = document.getElementById('clear-log-btn');
+    const fullscreenBtn = document.getElementById('fullscreen-toggle-btn');
+    const fullscreenBtnText = document.getElementById('fullscreen-btn-text');
 
     // Milestone tracking state (ensures each milestone fires once per session/reset)
     const milestones = {
@@ -486,6 +517,35 @@
         markMilestoneUI('complete', 'Completed (100%)');
         logEvent('🏆 Milestone Reached: Video Completion (100%)', true);
       }
+    });
+
+    // 4. Fullscreen Toggle & Event Tracking
+    function updateFullscreenUI(isFullscreen) {
+      if (fullscreenBtnText) {
+        fullscreenBtnText.textContent = isFullscreen ? 'Exit Fullscreen' : 'Fullscreen';
+      }
+    }
+
+    player.on('fullscreenchange', (data) => {
+      updateFullscreenUI(data.fullscreen);
+      logEvent(data.fullscreen ? 'Entered fullscreen mode.' : 'Exited fullscreen mode.');
+    });
+
+    fullscreenBtn.addEventListener('click', () => {
+      player.getFullscreen().then((isFullscreen) => {
+        if (isFullscreen) {
+          return player.exitFullscreen();
+        } else {
+          return player.requestFullscreen();
+        }
+      }).catch(() => {
+        // Fallback to standard Fullscreen API on the iframe if needed
+        if (!document.fullscreenElement) {
+          iframe.requestFullscreen?.();
+        } else {
+          document.exitFullscreen?.();
+        }
+      });
     });
 
     // Reset Milestones Button
