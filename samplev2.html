@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snow Playing and Running</title>
+  <!-- Vimeo Player JS SDK -->
+  <script src="https://player.vimeo.com/api/player.js"></script>
+  <style>
+    :root {
+      --bg-page: #ffffff;
+      --bg-card: #ffffff;
+      --bg-surface: #f1f5f9;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent: #0284c7;
+      --accent-hover: #0369a1;
+      --border: #e2e8f0;
+      --radius: 14px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 2.5rem 1.25rem 4rem;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 1.75rem;
+    }
+
+    h1 {
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+    }
+
+    /* Video Card & 16:9 Responsive Wrapper */
+    .video-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+    }
+
+    .video-responsive {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #000000;
+    }
+
+    .video-responsive iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      transition: transform 0.25s ease;
+    }
+
+    /* Fullscreen state for container (Native Fullscreen & Fallback Pseudo-Fullscreen) */
+    .video-responsive:fullscreen,
+    .video-responsive:-webkit-full-screen,
+    .video-responsive.pseudo-fullscreen {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      padding-bottom: 0;
+      border-radius: 0;
+      z-index: 9999;
+      background: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Automatic 90deg rotation in fullscreen when video is horizontal and viewport is portrait,
+       or when manual rotation is toggled */
+    @media (orientation: portrait) {
+      .video-responsive.is-horizontal-video:fullscreen iframe,
+      .video-responsive.is-horizontal-video:-webkit-full-screen iframe,
+      .video-responsive.is-horizontal-video.pseudo-fullscreen iframe {
+        width: 100vh;
+        height: 100vw;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(90deg);
+      }
+    }
+
+    .video-responsive.force-rotate:fullscreen iframe,
+    .video-responsive.force-rotate:-webkit-full-screen iframe,
+    .video-responsive.force-rotate.pseudo-fullscreen iframe {
+      width: 100vh;
+      height: 100vw;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(90deg);
+    }
+
+    /* Overlay exit button visible only while container is in fullscreen */
+    .fs-overlay-controls {
+      display: none;
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 10000;
+      gap: 8px;
+    }
+
+    .video-responsive:fullscreen .fs-overlay-controls,
+    .video-responsive:-webkit-full-screen .fs-overlay-controls,
+    .video-responsive.pseudo-fullscreen .fs-overlay-controls {
+      display: flex;
+    }
+
+    .fs-overlay-btn {
+      background: rgba(15, 23, 42, 0.75);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 8px;
+      padding: 0.45rem 0.8rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+    }
+
+    .fs-overlay-btn:hover {
+      background: rgba(2, 132, 199, 0.9);
+    }
+
+    /* Controls & Progress Bar Row */
+    .player-controls-bar {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 8px;
+      background: var(--bg-surface);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.2s ease-out;
+    }
+
+    .progress-label {
+      font-size: 0.85rem;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-muted);
+      min-width: 90px;
+      text-align: right;
+    }
+
+    .fullscreen-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: var(--accent);
+      color: #ffffff;
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      padding: 0.45rem 0.9rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+    }
+
+    .fullscreen-btn:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+
+    .fullscreen-btn:active {
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Snow Playing and Running</h1>
+    </header>
+
+    <!-- Responsive Video Embed Card -->
+    <section class="video-card" aria-label="Snow Playing and Running Video Player">
+      <div class="video-responsive is-horizontal-video" id="video-container">
+        <!-- Vimeo Video ID: 1205819775 -->
+        <iframe
+          id="vimeo-player"
+          src="https://player.vimeo.com/video/1205819775?title=0&byline=0&portrait=0&fullscreen=1"
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+          allowfullscreen
+          webkitallowfullscreen
+          mozallowfullscreen
+          title="Snow Playing and Running">
+        </iframe>
+
+        <!-- Fullscreen overlay controls for rotation & exit -->
+        <div class="fs-overlay-controls">
+          <button type="button" class="fs-overlay-btn" id="fs-rotate-btn" title="Rotate Video">↻ Rotate</button>
+          <button type="button" class="fs-overlay-btn" id="fs-exit-btn" title="Exit Fullscreen">✕ Exit</button>
+        </div>
+      </div>
+
+      <div class="player-controls-bar">
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="progress-label" id="progress-label">0.0% (0:00)</div>
+        <button type="button" class="fullscreen-btn" id="fullscreen-toggle-btn" aria-label="Toggle Fullscreen">
+          <span aria-hidden="true">⛶</span>
+          <span id="fullscreen-btn-text">Fullscreen</span>
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const iframe = document.getElementById('vimeo-player');
+    const videoContainer = document.getElementById('video-container');
+    const player = new Vimeo.Player(iframe);
+
+    const progressFill = document.getElementById('progress-fill');
+    const progressLabel = document.getElementById('progress-label');
+    const fullscreenBtn = document.getElementById('fullscreen-toggle-btn');
+    const fullscreenBtnText = document.getElementById('fullscreen-btn-text');
+    const fsRotateBtn = document.getElementById('fs-rotate-btn');
+    const fsExitBtn = document.getElementById('fs-exit-btn');
+
+    // Track whether the embedded video has a horizontal (landscape) aspect ratio
+    let isHorizontalVideo = true;
+
+    function detectVideoOrientation() {
+      Promise.all([player.getVideoWidth(), player.getVideoHeight()])
+        .then(([width, height]) => {
+          if (width && height) {
+            isHorizontalVideo = width >= height;
+            videoContainer.classList.toggle('is-horizontal-video', isHorizontalVideo);
+            // Update aspect ratio padding dynamically if needed
+            const ratioPct = (height / width) * 100;
+            videoContainer.style.paddingBottom = `${ratioPct.toFixed(2)}%`;
+          }
+        })
+        .catch(() => {
+          // Keep default horizontal 16:9 assumption if dimensions are unavailable
+          isHorizontalVideo = true;
+          videoContainer.classList.add('is-horizontal-video');
+        });
+    }
+
+    player.ready().then(detectVideoOrientation);
+    player.on('loaded', detectVideoOrientation);
+
+    function formatSeconds(sec) {
+      const s = Math.max(0, Math.floor(sec || 0));
+      const mins = Math.floor(s / 60);
+      const rem = s % 60;
+      return `${mins}:${rem < 10 ? '0' : ''}${rem}`;
+    }
+
+    player.on('timeupdate', (data) => {
+      const pct = (data.percent || 0) * 100;
+      progressFill.style.width = `${Math.min(100, pct).toFixed(1)}%`;
+      progressLabel.textContent = `${pct.toFixed(1)}% (${formatSeconds(data.seconds)})`;
+    });
+
+    player.on('ended', (data) => {
+      progressFill.style.width = '100%';
+      progressLabel.textContent = `100.0% (${formatSeconds(data.duration)})`;
+    });
+
+    // Lock screen to landscape when entering fullscreen on a horizontal video
+    function applyFullscreenRotation(enteringFullscreen) {
+      if (enteringFullscreen && isHorizontalVideo) {
+        if (screen.orientation && typeof screen.orientation.lock === 'function') {
+          screen.orientation.lock('landscape').catch(() => {
+            // If device/browser disallows orientation lock, CSS @media (orientation: portrait)
+            // automatically rotates the horizontal video 90deg in fullscreen.
+          });
+        }
+      } else if (!enteringFullscreen) {
+        videoContainer.classList.remove('force-rotate');
+        if (screen.orientation && typeof screen.orientation.unlock === 'function') {
+          try {
+            screen.orientation.unlock();
+          } catch (_) {}
+        }
+      }
+    }
+
+    function isCurrentlyFullscreen() {
+      return Boolean(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement ||
+        videoContainer.classList.contains('pseudo-fullscreen')
+      );
+    }
+
+    function updateFullscreenUI(isFullscreen) {
+      if (fullscreenBtnText) {
+        fullscreenBtnText.textContent = isFullscreen ? 'Exit Fullscreen' : 'Fullscreen';
+      }
+      applyFullscreenRotation(isFullscreen);
+    }
+
+    // Listen to Vimeo internal fullscreen button events
+    player.on('fullscreenchange', (data) => {
+      updateFullscreenUI(Boolean(data.fullscreen));
+    });
+
+    // Listen to browser Fullscreen API events
+    document.addEventListener('fullscreenchange', () => {
+      updateFullscreenUI(isCurrentlyFullscreen());
+    });
+    document.addEventListener('webkitfullscreenchange', () => {
+      updateFullscreenUI(isCurrentlyFullscreen());
+    });
+
+    async function enterPlayerFullscreen() {
+      try {
+        if (videoContainer.requestFullscreen) {
+          await videoContainer.requestFullscreen();
+        } else if (videoContainer.webkitRequestFullscreen) {
+          videoContainer.webkitRequestFullscreen();
+        } else {
+          // Fallback for mobile browsers where div fullscreen is restricted
+          videoContainer.classList.add('pseudo-fullscreen');
+          updateFullscreenUI(true);
+        }
+      } catch (_) {
+        try {
+          await player.requestFullscreen();
+        } catch (err) {
+          videoContainer.classList.add('pseudo-fullscreen');
+          updateFullscreenUI(true);
+        }
+      }
+    }
+
+    async function exitPlayerFullscreen() {
+      if (videoContainer.classList.contains('pseudo-fullscreen')) {
+        videoContainer.classList.remove('pseudo-fullscreen');
+        updateFullscreenUI(false);
+        return;
+      }
+      try {
+        if (document.fullscreenElement && document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if (document.webkitFullscreenElement && document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else {
+          await player.exitFullscreen();
+        }
+      } catch (_) {
+        updateFullscreenUI(false);
+      }
+    }
+
+    fullscreenBtn.addEventListener('click', () => {
+      if (isCurrentlyFullscreen()) {
+        exitPlayerFullscreen();
+      } else {
+        enterPlayerFullscreen();
+      }
+    });
+
+    fsExitBtn.addEventListener('click', () => {
+      exitPlayerFullscreen();
+    });
+
+    fsRotateBtn.addEventListener('click', () => {
+      videoContainer.classList.toggle('force-rotate');
+    });
+  </script>
+</body>
+</html>
+
