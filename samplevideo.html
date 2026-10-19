@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Landing Page — Vimeo Player API Milestone Tracking</title>
+  <!-- Vimeo Player JS SDK -->
+  <script src="https://player.vimeo.com/api/player.js"></script>
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-card: #1e293b;
+      --bg-surface: #0b1120;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-hover: #0284c7;
+      --success: #22c55e;
+      --border: #334155;
+      --radius: 14px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0%, var(--bg-primary) 70%);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 2rem 1.25rem 4rem;
+    }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    /* Header / Hero Copy */
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      padding: 0.28rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-size: clamp(1.75rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto;
+      font-size: 1rem;
+    }
+
+    /* Video Card & 16:9 Responsive Wrapper */
+    .video-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+      margin-bottom: 1.5rem;
+    }
+
+    .video-responsive {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #000;
+    }
+
+    .video-responsive iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Live Progress Bar */
+    .progress-bar-wrap {
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 8px;
+      background: var(--bg-surface);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--success));
+      transition: width 0.2s ease-out;
+    }
+
+    .progress-label {
+      font-size: 0.85rem;
+      font-variant-numeric: tabular-nums;
+      color: var(--text-muted);
+      min-width: 90px;
+      text-align: right;
+    }
+
+    /* Telemetry Grid: Milestones + On-Screen Log */
+    .telemetry-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 1.5rem;
+    }
+
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-title {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .btn-small {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-small:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--accent);
+    }
+
+    /* Milestone Checkpoints */
+    .milestone-list {
+      list-style: none;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .milestone-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0.9rem;
+      border-radius: 10px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+
+    .milestone-item.reached {
+      border-color: rgba(34, 197, 94, 0.55);
+      background: rgba(34, 197, 94, 0.1);
+    }
+
+    .milestone-name {
+      font-weight: 600;
+      font-size: 0.92rem;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #475569;
+      display: inline-block;
+      transition: background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .milestone-item.reached .status-dot {
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+    }
+
+    .milestone-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.15);
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .milestone-item.reached .milestone-badge {
+      background: rgba(34, 197, 94, 0.2);
+      color: #86efac;
+    }
+
+    /* Event Console Log */
+    .log-console {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.82rem;
+      height: 235px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .log-entry {
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 3px solid var(--accent);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .log-entry.milestone-hit {
+      border-left-color: var(--success);
+      background: rgba(34, 197, 94, 0.08);
+    }
+
+    .log-time {
+      color: var(--text-muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .log-msg {
+      color: var(--text-main);
+      word-break: break-word;
+      flex: 1;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(3px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .telemetry-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <span class="eyebrow">Vimeo Player API Integration</span>
+      <h1>Product Keynote &amp; Milestone Telemetry</h1>
+      <p class="subtitle">
+        Watch the featured presentation below. Playback events are tracked in real time at
+        <strong>Start</strong>, <strong>10%</strong>, <strong>50%</strong>, and <strong>Completion</strong>.
+      </p>
+    </header>
+
+    <!-- Responsive Video Embed Card -->
+    <section class="video-card" aria-label="Featured Video Player">
+      <div class="video-responsive">
+        <!-- Vimeo Video ID: 1205819775 -->
+        <iframe
+          id="vimeo-player"
+          src="https://player.vimeo.com/video/1205819775?title=0&byline=0&portrait=0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen
+          title="Featured Vimeo Video">
+        </iframe>
+      </div>
+
+      <div class="progress-bar-wrap">
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="progress-label" id="progress-label">0.0% (0:00)</div>
+      </div>
+    </section>
+
+    <!-- Milestone Status & On-Screen Event Log -->
+    <section class="telemetry-grid" aria-label="Video Analytics Telemetry">
+      <!-- Left: Milestone Checkpoints -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">Tracked Milestones</h2>
+          <button type="button" class="btn-small" id="reset-tracking-btn">Reset Milestones</button>
+        </div>
+
+        <ul class="milestone-list">
+          <li class="milestone-item" id="ms-start">
+            <span class="milestone-name">
+              <span class="status-dot"></span>
+              Video Start (Play)
+            </span>
+            <span class="milestone-badge" id="badge-start">Pending</span>
+          </li>
+          <li class="milestone-item" id="ms-10">
+            <span class="milestone-name">
+              <span class="status-dot"></span>
+              10% Watched
+            </span>
+            <span class="milestone-badge" id="badge-10">Pending</span>
+          </li>
+          <li class="milestone-item" id="ms-50">
+            <span class="milestone-name">
+              <span class="status-dot"></span>
+              50% Watched
+            </span>
+            <span class="milestone-badge" id="badge-50">Pending</span>
+          </li>
+          <li class="milestone-item" id="ms-complete">
+            <span class="milestone-name">
+              <span class="status-dot"></span>
+              100% Completed
+            </span>
+            <span class="milestone-badge" id="badge-complete">Pending</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Right: Live On-Screen Event Log -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2 class="panel-title">On-Screen Event Log</h2>
+          <button type="button" class="btn-small" id="clear-log-btn">Clear Log</button>
+        </div>
+        <div class="log-console" id="log-console" role="log" aria-live="polite"></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Initialize Vimeo Player SDK instance on the iframe
+    const iframe = document.getElementById('vimeo-player');
+    const player = new Vimeo.Player(iframe);
+
+    // UI Elements
+    const logConsole = document.getElementById('log-console');
+    const progressFill = document.getElementById('progress-fill');
+    const progressLabel = document.getElementById('progress-label');
+    const resetBtn = document.getElementById('reset-tracking-btn');
+    const clearLogBtn = document.getElementById('clear-log-btn');
+
+    // Milestone tracking state (ensures each milestone fires once per session/reset)
+    const milestones = {
+      start: false,
+      tenPercent: false,
+      fiftyPercent: false,
+      complete: false
+    };
+
+    // Format seconds into M:SS
+    function formatSeconds(sec) {
+      const s = Math.max(0, Math.floor(sec || 0));
+      const mins = Math.floor(s / 60);
+      const rem = s % 60;
+      return `${mins}:${rem < 10 ? '0' : ''}${rem}`;
+    }
+
+    // Append a message to the on-screen log console
+    function logEvent(message, isMilestone = false) {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+      const entry = document.createElement('div');
+      entry.className = 'log-entry' + (isMilestone ? ' milestone-hit' : '');
+
+      const msgSpan = document.createElement('span');
+      msgSpan.className = 'log-msg';
+      msgSpan.textContent = message;
+
+      const timeSpan = document.createElement('span');
+      timeSpan.className = 'log-time';
+      timeSpan.textContent = timeStr;
+
+      entry.appendChild(msgSpan);
+      entry.appendChild(timeSpan);
+      logConsole.prepend(entry);
+    }
+
+    // Mark a milestone card as reached in the UI
+    function markMilestoneUI(key, detailText) {
+      const itemEl = document.getElementById(`ms-${key}`);
+      const badgeEl = document.getElementById(`badge-${key}`);
+      if (itemEl) itemEl.classList.add('reached');
+      if (badgeEl) badgeEl.textContent = detailText;
+    }
+
+    // Player Ready Check
+    player.ready().then(() => {
+      logEvent('Vimeo Player SDK initialized and ready.');
+    }).catch((err) => {
+      logEvent(`Player error: ${err.message || err}`);
+    });
+
+    // 1. Track "Start" Milestone
+    player.on('play', (data) => {
+      if (!milestones.start) {
+        milestones.start = true;
+        markMilestoneUI('start', `Reached @ ${formatSeconds(data.seconds)}`);
+        logEvent('🏆 Milestone Reached: Video Start (0%)', true);
+      } else {
+        logEvent(`Playback resumed at ${formatSeconds(data.seconds)}`);
+      }
+    });
+
+    // 2. Track "10%" and "50%" Milestones via timeupdate
+    player.on('timeupdate', (data) => {
+      // data.percent is a float between 0 and 1
+      const pct = (data.percent || 0) * 100;
+      progressFill.style.width = `${Math.min(100, pct).toFixed(1)}%`;
+      progressLabel.textContent = `${pct.toFixed(1)}% (${formatSeconds(data.seconds)})`;
+
+      if (!milestones.tenPercent && data.percent >= 0.10) {
+        milestones.tenPercent = true;
+        markMilestoneUI('10', `Reached @ ${formatSeconds(data.seconds)}`);
+        logEvent(`🏆 Milestone Reached: 10% Watched (${formatSeconds(data.seconds)})`, true);
+      }
+
+      if (!milestones.fiftyPercent && data.percent >= 0.50) {
+        milestones.fiftyPercent = true;
+        markMilestoneUI('50', `Reached @ ${formatSeconds(data.seconds)}`);
+        logEvent(`🏆 Milestone Reached: 50% Watched (${formatSeconds(data.seconds)})`, true);
+      }
+    });
+
+    // 3. Track "Completion" Milestone
+    player.on('ended', (data) => {
+      if (!milestones.complete) {
+        milestones.complete = true;
+        progressFill.style.width = '100%';
+        progressLabel.textContent = `100.0% (${formatSeconds(data.duration)})`;
+        markMilestoneUI('complete', 'Completed (100%)');
+        logEvent('🏆 Milestone Reached: Video Completion (100%)', true);
+      }
+    });
+
+    // Reset Milestones Button
+    resetBtn.addEventListener('click', () => {
+      milestones.start = false;
+      milestones.tenPercent = false;
+      milestones.fiftyPercent = false;
+      milestones.complete = false;
+
+      ['start', '10', '50', 'complete'].forEach((key) => {
+        const itemEl = document.getElementById(`ms-${key}`);
+        const badgeEl = document.getElementById(`badge-${key}`);
+        if (itemEl) itemEl.classList.remove('reached');
+        if (badgeEl) badgeEl.textContent = 'Pending';
+      });
+
+      logEvent('Milestone tracking state reset.');
+    });
+
+    // Clear Log Button
+    clearLogBtn.addEventListener('click', () => {
+      logConsole.innerHTML = '';
+      logEvent('Event log cleared.');
+    });
+  </script>
+</body>
+</html>
+

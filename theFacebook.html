@@ -107,7 +107,7 @@
       cursor: pointer;
     }
 
-    .top-nav a:last-child {
+    .top-nav a:last-of-type {
       border-right: none;
       padding-right: 0;
     }
@@ -981,6 +981,246 @@
         line-height: 1.8;
         padding: 15px 10px;
       }
+
+      .dark-mode-toggle {
+        font-size: 14px;
+        padding: 6px 10px;
+        margin-left: 4px;
+      }
+    }
+
+    /* ==========================================================================
+       DARK MODE TOGGLE & DARK THEME OVERRIDES
+       ========================================================================== */
+    .dark-mode-toggle {
+      background-color: rgba(0, 0, 0, 0.2);
+      color: #ffffff;
+      border: 1px solid #708ec7;
+      border-radius: 2px;
+      font-family: inherit;
+      font-size: 10.5px;
+      font-weight: bold;
+      padding: 2px 7px;
+      margin-left: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .dark-mode-toggle:hover {
+      background-color: #1d3663;
+      color: #ffff99;
+    }
+
+    body.dark-mode {
+      background-color: #0e131f;
+      color: #dce3f0;
+    }
+
+    body.dark-mode a {
+      color: #7aa2f7;
+    }
+
+    body.dark-mode a:hover {
+      color: #a9c5ff;
+    }
+
+    body.dark-mode #page-wrapper {
+      background-color: #161d2f;
+      border-color: #2c3e66;
+      box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.6);
+    }
+
+    body.dark-mode #header {
+      background-color: #1f3057;
+      border-bottom-color: #111b33;
+    }
+
+    body.dark-mode #sub-bar {
+      background-color: #283c6b;
+      border-bottom-color: #1f3057;
+    }
+
+    body.dark-mode .quick-search input[type="text"],
+    body.dark-mode .form-input-text,
+    body.dark-mode .form-select,
+    body.dark-mode .wall-post-box textarea {
+      background-color: #0f1523;
+      color: #e2e8f5;
+      border-color: #384f82;
+    }
+
+    body.dark-mode .quick-search button,
+    body.dark-mode .retro-btn {
+      background-color: #263861;
+      border-color: #4a67a3;
+      color: #e2e8f5;
+    }
+
+    body.dark-mode .quick-search button:hover,
+    body.dark-mode .retro-btn:hover {
+      background-color: #3b5998;
+      color: #ffffff;
+    }
+
+    body.dark-mode #system-toast {
+      background-color: #332b00;
+      border-bottom-color: #806c00;
+      color: #ffe866;
+    }
+
+    body.dark-mode #col-left,
+    body.dark-mode #col-right {
+      background-color: #121827;
+      border-color: #26334d;
+    }
+
+    body.dark-mode #col-center {
+      border-color: #26334d;
+    }
+
+    body.dark-mode .retro-box {
+      background-color: #1a2236 !important;
+      border-color: #2b3959 !important;
+    }
+
+    body.dark-mode .retro-box-header {
+      background-color: #23304d !important;
+      border-bottom-color: #2b3959;
+      color: #9ab8f7;
+    }
+
+    body.dark-mode .info-table td {
+      border-bottom-color: #26334d;
+    }
+
+    body.dark-mode .info-table thead tr {
+      background-color: #23304d !important;
+      color: #dce3f0;
+    }
+
+    body.dark-mode .label-cell {
+      background-color: #151c2e;
+      color: #9aa7c2;
+    }
+
+    body.dark-mode .value-cell {
+      color: #e2e8f5;
+    }
+
+    body.dark-mode .profile-heading-bar,
+    body.dark-mode .subpage-header-bar {
+      border-bottom-color: #384f82;
+    }
+
+    body.dark-mode .profile-heading-bar h1,
+    body.dark-mode .subpage-title,
+    body.dark-mode .welcome-splash h2 {
+      color: #8ab0ff;
+    }
+
+    body.dark-mode .member-status-box,
+    body.dark-mode .mobile-profile-header .status-note {
+      background-color: #1e2840;
+      color: #dce3f0;
+      border-left-color: #5b82d6;
+    }
+
+    body.dark-mode .mobile-profile-header {
+      background-color: #161d2f;
+      border-bottom-color: #26334d;
+    }
+
+    body.dark-mode .mobile-profile-header h1 {
+      color: #8ab0ff;
+    }
+
+    body.dark-mode .profile-pic-card {
+      background-color: #121827;
+      border-color: #384f82;
+    }
+
+    body.dark-mode .pic-status {
+      color: #55ee77;
+    }
+
+    body.dark-mode .action-links {
+      border-top-color: #26334d;
+    }
+
+    body.dark-mode .action-links li::before,
+    body.dark-mode .action-links a,
+    body.dark-mode .action-links button {
+      color: #7aa2f7;
+    }
+
+    body.dark-mode .action-links a:hover,
+    body.dark-mode .action-links button:hover {
+      color: #a9c5ff;
+    }
+
+    body.dark-mode .wall-post-box {
+      background-color: #121827;
+      border-bottom-color: #2b3959;
+    }
+
+    body.dark-mode .wall-entry {
+      border-bottom-color: #2b3959;
+    }
+
+    body.dark-mode .wall-author,
+    body.dark-mode .student-name {
+      color: #8ab0ff;
+    }
+
+    body.dark-mode .wall-date,
+    body.dark-mode .subpage-crumb {
+      color: #8e9cb8;
+    }
+
+    body.dark-mode .student-card {
+      background-color: #121827;
+      border-color: #2b3959;
+    }
+
+    body.dark-mode .form-grid-table .label {
+      color: #9aa7c2;
+    }
+
+    body.dark-mode .alpha-bar {
+      background-color: #121827;
+      border-color: #2b3959;
+    }
+
+    body.dark-mode .alpha-btn {
+      color: #8ab0ff;
+    }
+
+    body.dark-mode .alpha-btn:hover,
+    body.dark-mode .alpha-btn.active-letter {
+      background-color: #3b5998;
+      color: #ffffff;
+    }
+
+    body.dark-mode .welcome-splash {
+      background-color: #121827;
+      border-color: #384f82;
+    }
+
+    body.dark-mode .welcome-login-box {
+      background-color: #1a2236;
+      border-color: #2b3959;
+    }
+
+    body.dark-mode #footer {
+      background-color: #121827;
+      border-top-color: #26334d;
+      color: #8e9cb8;
+    }
+
+    body.dark-mode .retro-box-body,
+    body.dark-mode .retro-box-body p {
+      color: #c9d4e8 !important;
     }
   </style>
 </head>
@@ -1000,6 +1240,7 @@
       <a href="javascript:void(0)" onclick="switchTab('invite')" id="nav-invite">invite</a>
       <a href="javascript:void(0)" onclick="switchTab('privacy')" id="nav-privacy">privacy</a>
       <a href="javascript:void(0)" onclick="switchTab('logout')" id="nav-logout">logout</a>
+      <button type="button" class="dark-mode-toggle" id="darkModeToggle" onclick="toggleDarkMode()" aria-label="Toggle Dark Mode">🌙 dark</button>
     </nav>
   </header>
 
@@ -2028,6 +2269,33 @@
   }
 
   /* -------------------------------------------------------------------------
+     DARK MODE TOGGLE & PERSISTENCE
+     ------------------------------------------------------------------------- */
+  function updateDarkModeButton(isDark) {
+    const btn = document.getElementById('darkModeToggle');
+    if (btn) {
+      btn.innerHTML = isDark ? '☀️ light' : '🌙 dark';
+      btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+    }
+  }
+
+  function toggleDarkMode() {
+    const isDark = document.body.classList.toggle('dark-mode');
+    localStorage.setItem('thefacebook_dark_mode', isDark ? '1' : '0');
+    updateDarkModeButton(isDark);
+    showToast(isDark ? 'Dark mode enabled (Late-night Kirkland H-33 coding theme).' : 'Classic 2004 light mode restored.');
+  }
+
+  function initDarkMode() {
+    const saved = localStorage.getItem('thefacebook_dark_mode');
+    const isDark = saved === '1';
+    if (isDark) {
+      document.body.classList.add('dark-mode');
+    }
+    updateDarkModeButton(isDark);
+  }
+
+  /* -------------------------------------------------------------------------
      HELPER UTILITY
      ------------------------------------------------------------------------- */
   function escapeHtml(str) {
@@ -2041,6 +2309,9 @@
      INIT ON LOAD
      ------------------------------------------------------------------------- */
   window.addEventListener('DOMContentLoaded', () => {
+    // Initialize theme preference
+    initDarkMode();
+
     // Populate poke badge
     const badge = document.getElementById('pokeBadgeCount');
     if (badge) badge.textContent = pokeCount;
